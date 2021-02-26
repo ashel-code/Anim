@@ -13,6 +13,11 @@ namespace Anim
         public MainPage()
         {
             InitializeComponent();
+            
+        }
+        void Button1Clicked(object sender, EventArgs e)
+        {
+            Console.WriteLine("fuck");
         }
     }
 }
