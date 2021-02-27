@@ -10,6 +10,7 @@ namespace Anim
 {
     public partial class MainPage : ContentPage
     {
+        bool i = false;
         public MainPage()
         {
             InitializeComponent();
@@ -17,7 +18,16 @@ namespace Anim
         }
         void Button1Clicked(object sender, EventArgs e)
         {
-            Console.WriteLine("fuck");
+            if (!i)
+            {
+                lbl1.Text = "here we go again";
+                i = true;
+            } else
+            {
+                lbl1.Text = "help me plz";
+                i = false;
+            }
+            Console.WriteLine("123");
         }
     }
 }
