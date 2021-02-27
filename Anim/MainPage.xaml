@@ -1,9 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Anim.MainPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Anim.MainPage"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms">
     <StackLayout>
         <Frame BackgroundColor="#2196F3" Padding="10" CornerRadius="0">
             <Label x:Name="lbl1" Text="Welcome to Anim!" HorizontalTextAlignment="Center" TextColor="White" FontSize="18" />
         </Frame>
-        <Button Text="Button" Clicked="Button1Clicked"/>
+        
+        <Button Text="clear" Clicked="clearButtonClicked" IsVisible="true"/>
+        <skia:SKCanvasView x:Name="canvasView"
+                           PaintSurface="canvasView_PaintSurface"
+                           EnableTouchEvents="True"
+                           Touch="OnTouch"/>
+        
     </StackLayout>
 </ContentPage>
