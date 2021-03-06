@@ -22,6 +22,7 @@ namespace Anim.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 #if ENABLE_TEST_CLOUD
             Xamarin.Calabash.Start();
 #endif

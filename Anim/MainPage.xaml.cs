@@ -24,18 +24,11 @@ namespace Anim
             
         }
 
-		//public void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
-		//{
-		//canvasView.HeightRequest = DeviceDisplay.MainDisplayInfo.Height;
+		void doMagic(object sender, EventArgs e)
+        {
+			
+        }
 
-		//SKSurface surface = e.Surface;
-		//SKCanvas canvas = surface.Canvas;
-
-		//canvas.Clear(SKColors.DarkBlue);
-
-
-
-		//}
 		private void clearButtonClicked(object sender, EventArgs e)
         {
 			clear = true;
@@ -74,6 +67,8 @@ namespace Anim
 			{
 				canvas.DrawPath(touchPath, touchPathStroke);
 			}
+
+		
 		}
 
 		private void OnTouch(object sender, SKTouchEventArgs e)
@@ -102,7 +97,7 @@ namespace Anim
 					temporaryPaths.Remove(e.Id);
 					break;
 			}
-
+			
 			// update the UI
 			if (e.InContact)
 				((SKCanvasView)sender).InvalidateSurface();

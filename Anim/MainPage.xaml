@@ -6,8 +6,10 @@
         <Frame BackgroundColor="#2196F3" Padding="10" CornerRadius="0">
             <Label x:Name="lbl1" Text="Welcome to Anim!" HorizontalTextAlignment="Center" TextColor="White" FontSize="18" />
         </Frame>
-        
-        <Button Text="clear" Clicked="clearButtonClicked" IsVisible="true"/>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="clear" Clicked="clearButtonClicked" IsVisible="true"/>
+            <Button Text="magic" Clicked="doMagic" IsVisible="true"/>
+        </StackLayout>
         <skia:SKCanvasView x:Name="canvasView"
                            PaintSurface="canvasView_PaintSurface"
                            EnableTouchEvents="True"
