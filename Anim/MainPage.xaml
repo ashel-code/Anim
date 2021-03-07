@@ -6,14 +6,67 @@
         <Frame BackgroundColor="#2196F3" Padding="10" CornerRadius="0">
             <Label x:Name="lbl1" Text="Welcome to Anim!" HorizontalTextAlignment="Center" TextColor="White" FontSize="18" />
         </Frame>
-        <StackLayout Orientation="Horizontal">
-            <Button Text="clear" Clicked="clearButtonClicked" IsVisible="true"/>
-            <Button Text="magic" Clicked="doMagic" IsVisible="true"/>
+        <StackLayout Orientation="Horizontal" Margin="200,0,0,0" VerticalOptions="Start" Visual="Default" HorizontalOptions="Fill" ScaleY="1">
+            <Button Text="save"
+                    Clicked = "saveButtonClicked"
+                    IsVisible="true"
+                    HorizontalOptions="Center"
+                    BackgroundColor="#2196F3"
+                    TextColor="#FFFFFF"/>
+            
+            <Button Text="open"
+                    Clicked = "openButtonClicked"
+                    IsVisible="true"
+                    HorizontalOptions="Center" Margin="0,0,20,0"
+                    BackgroundColor="#2196F3"
+                    TextColor="#FFFFFF"/>
+
+            <Button Text="clear"
+                    Clicked="clearButtonClicked"
+                    IsVisible="true"
+                    HorizontalOptions="EndAndExpand"
+                    BackgroundColor="#2196F3"
+                    TextColor="#FFFFFF"/>
+
+            <Button Text="magic"
+                    Clicked="doMagic"
+                    IsVisible="true"
+                    HorizontalOptions="End" Margin="0,0,20,0"
+                    BackgroundColor="#2196F3"
+                    TextColor="#FFFFFF"/>
+
         </StackLayout>
+
+        <StackLayout Orientation="Vertical" Margin="10,0,0,0" HorizontalOptions="Start" >
+            <Button Text="Eraser"
+                    Clicked="eraserButtonClicked"
+                    IsVisible="true"
+                    VerticalOptions="Start"
+                    BackgroundColor="#2196F3"
+                    TextColor="#FFFFFF"/>
+
+            <Button Text="Pencil"
+                    Clicked="pencilButtonClicked"
+                    IsVisible="true"
+                    VerticalOptions="Start"
+                    BackgroundColor="#2196F3"
+                    TextColor="#FFFFFF"/>
+
+        </StackLayout>
+
         <skia:SKCanvasView x:Name="canvasView"
                            PaintSurface="canvasView_PaintSurface"
                            EnableTouchEvents="True"
                            Touch="OnTouch"/>
-        
+
+        <ContentView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <CarouselView ItemsSource="{Binding MyDataSource}">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="" />
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+        </ContentView>
     </StackLayout>
 </ContentPage>

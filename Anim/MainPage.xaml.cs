@@ -34,6 +34,18 @@ namespace Anim
 			clear = true;
 			canvasView.InvalidateSurface();
 		}
+
+
+		private void saveButtonClicked(object sender, EventArgs e)
+        {
+		}
+
+
+		private void openButtonClicked(object sender, EventArgs e)
+		{
+
+		}
+
 		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
 		{
 			canvasView.HeightRequest = DeviceDisplay.MainDisplayInfo.Height;
@@ -103,7 +115,17 @@ namespace Anim
 				((SKCanvasView)sender).InvalidateSurface();
 
 			// we have handled these events
-			e.Handled = true;
+			e.Handled = true;	
+		}
+
+		private void eraserButtonClicked(object sender, EventArgs e)
+        {
+
+        }
+
+		private void pencilButtonClicked(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
