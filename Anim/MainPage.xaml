@@ -53,12 +53,13 @@
                     TextColor="#FFFFFF"/>
 
         </StackLayout>
+        
+        <ListView Rotation="0" x:Name="frameList" ItemsSource="{Binding Frames}" />
 
         <skia:SKCanvasView x:Name="canvasView"
                            PaintSurface="canvasView_PaintSurface"
                            EnableTouchEvents="True"
                            Touch="OnTouch"/>
-
         <ContentView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <CarouselView ItemsSource="{Binding MyDataSource}">
                 <CarouselView.ItemTemplate>

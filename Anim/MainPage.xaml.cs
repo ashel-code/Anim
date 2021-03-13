@@ -18,6 +18,9 @@ namespace Anim
         private readonly List<SKPath> paths = new List<SKPath>();
 		bool clear = false;
 
+		public string[] Frames { get; set; }
+		public List<Image> FrameImages { get; set; }
+
 		static readonly HttpClient client = new HttpClient();
 
 		static async Task<string> apiRequest(int id) // it must return some value but it doesn't
@@ -44,10 +47,12 @@ namespace Anim
 		public MainPage()
 		{
 			InitializeComponent();
-			Console.WriteLine("#######");
-			string smth = apiRequest(0).ToString();
-			Console.WriteLine("!!!!!!!" + smth);
-			Console.WriteLine("#######");
+			Frames = new string[] { "1", "2", "3" };
+			this.BindingContext = this;
+			// Console.WriteLine("#######");
+			// string smth = apiRequest(0).ToString();
+			// Console.WriteLine("!!!!!!!" + smth);
+			// Console.WriteLine("#######");
 
 		}
 
@@ -72,7 +77,6 @@ namespace Anim
 
 		}
 
-
 		private void openButtonClicked(object sender, EventArgs e)
 		{
 
@@ -89,10 +93,6 @@ namespace Anim
 			if (clear == true)
 			{
 				clear = false;
-				foreach (SkiaSharp.SKPath i in paths)
-                {
-					Console.WriteLine(i.ToString());
-                }
 				temporaryPaths.Clear();
 				paths.Clear();
 				return;
