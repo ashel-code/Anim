@@ -83,9 +83,10 @@ namespace Anim
 		private void saveButtonClicked(object sender, EventArgs e)
         {
 			saveFrameBool = true;
+			canvasView.InvalidateSurface();
 		}
 
-		private void saveFrame(SkiaSharp.SKSurface surface, string extPath)
+		private void saveFrame(SKSurface surface, string extPath)
         {
 			SKData skData = surface.Snapshot().Encode();
 
@@ -106,27 +107,34 @@ namespace Anim
 		private void openButtonClicked(object sender, EventArgs e)
 		{
 			openFrameBool = true;
+			canvasView.InvalidateSurface();
 		}
 
-		private void openFrame(string extPath)
+		private SKBitmap openFrame(string extPath)
         {
 			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
 			string path = folder.Path;
-			string filePath = path + extPath;
+			string fileout = path + extPath;
 
+			//temporaryPaths.Clear();
+			//paths.Clear();
 
+			var bitmap = SKBitmap.Decode(fileout);
+			Console.WriteLine("!!!");
+			return bitmap;
 		}
 
 		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
 		{
-			var haight = DeviceDisplay.MainDisplayInfo.Height;
+			var height = DeviceDisplay.MainDisplayInfo.Height;
 			var wight = DeviceDisplay.MainDisplayInfo.Width;
-			canvasView.HeightRequest = haight;
+			canvasView.HeightRequest = height;
 
 			var surface = e.Surface;
 			var canvas = surface.Canvas;
 
 			canvas.Clear(SKColors.White);
+
 			if (clearBool == true)
 			{
 				clearBool = false;
@@ -134,32 +142,31 @@ namespace Anim
 				paths.Clear();
 				return;
 			}
+
 			if (saveFrameBool == true)
 			{
-				Console.WriteLine("smth");
 				saveFrameBool = false;
+				Console.WriteLine("smth");
 				saveFrame(surface, extPath);
+
 				return;
-            }
+
+			}
+
 			if (openFrameBool == true)
             {
 				Console.WriteLine("ну тоже робит вроде");
 				openFrameBool = false;
-				//openFrame(extPath);
-				IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
-				string path = folder.Path;
-				string fileout = path + extPath;
 
-				//temporaryPaths.Clear();
-				//paths.Clear();
+				var bitmap = openFrame(extPath);
 
-				var bitmap = SKBitmap.Decode(fileout);
-
-				Console.WriteLine(fileout);
-				canvas.DrawBitmap(bitmap, Convert.ToInt32(haight), Convert.ToInt32(wight));
+				canvas.DrawBitmap(bitmap, Convert.ToInt32(height), Convert.ToInt32(wight));
 
 				canvas.Restore();
 			}
+
+
+
 			var touchPathStroke = new SKPaint
 			{
 				IsAntialias = true,
