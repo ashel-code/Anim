@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using Xamarin.Essentials;
+using System.Net.Http;
 
 namespace Anim
 {
@@ -15,14 +16,40 @@ namespace Anim
     {
         private readonly Dictionary<long, SKPath> temporaryPaths = new Dictionary<long, SKPath>();
         private readonly List<SKPath> paths = new List<SKPath>();
-
 		bool clear = false;
+
+		static readonly HttpClient client = new HttpClient();
+
+		static async Task<string> apiRequest(int id) // it must return some value but it doesn't
+		{
+			// Call asynchronous network methods in a try/catch block to handle exceptions.
+			try
+			{
+				string responseBody = await client.GetStringAsync("http://192.168.1.48/image/0");
+				Console.WriteLine("!!!" + responseBody);
+				return responseBody;
+			}
+			catch (HttpRequestException e)
+			{
+				Console.WriteLine("\n!!!Exception Caught!");
+				Console.WriteLine("crya Message :{0} ", e.Message);
+				return null;
+			}
+		}
+
+
+	//  http://185.145.127.69/ai-quotes/0
+	//  http://192.168.1.48/ai-quotes/0
+
 		public MainPage()
-        {
-             
-            InitializeComponent();
-            
-        }
+		{
+			InitializeComponent();
+			Console.WriteLine("#######");
+			string smth = apiRequest(0).ToString();
+			Console.WriteLine("!!!!!!!" + smth);
+			Console.WriteLine("#######");
+
+		}
 
 		void doMagic(object sender, EventArgs e)
         {
@@ -35,9 +62,14 @@ namespace Anim
 			canvasView.InvalidateSurface();
 		}
 
+		private void convertToString(SkiaSharp.SKCanvas canvas)
+        {
+			
+        }
 
 		private void saveButtonClicked(object sender, EventArgs e)
         {
+
 		}
 
 
@@ -57,6 +89,10 @@ namespace Anim
 			if (clear == true)
 			{
 				clear = false;
+				foreach (SkiaSharp.SKPath i in paths)
+                {
+					Console.WriteLine(i.ToString());
+                }
 				temporaryPaths.Clear();
 				paths.Clear();
 				return;
