@@ -9,6 +9,8 @@ using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using Xamarin.Essentials;
 using System.Net.Http;
+using PCLStorage;
+using System.IO;
 
 namespace Anim
 {
@@ -16,7 +18,12 @@ namespace Anim
     {
         private readonly Dictionary<long, SKPath> temporaryPaths = new Dictionary<long, SKPath>();
         private readonly List<SKPath> paths = new List<SKPath>();
-		bool clear = false;
+		bool clearBool = false;
+		bool saveFrameBool = false;
+		bool openFrameBool = false;
+
+		// tmp:
+		string extPath = "/outfile.jpg";
 
 		public string[] Frames { get; set; }
 		public List<Image> FrameImages { get; set; }
@@ -63,41 +70,96 @@ namespace Anim
 
 		private void clearButtonClicked(object sender, EventArgs e)
         {
-			clear = true;
+			clearBool = true;
 			canvasView.InvalidateSurface();
 		}
 
-		private void convertToString(SkiaSharp.SKCanvas canvas)
+		private void convertToString(SkiaSharp.SKSurface surface)
         {
 			
-        }
+			
+		}
 
 		private void saveButtonClicked(object sender, EventArgs e)
         {
+			saveFrameBool = true;
+		}
 
+		private void saveFrame(SkiaSharp.SKSurface surface, string extPath)
+        {
+			SKData skData = surface.Snapshot().Encode();
+
+			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
+			string path = folder.Path;
+			string fileout = path + extPath;
+
+			Console.WriteLine("2");
+			// Plan A)
+			using (Stream stream1 = File.OpenWrite(fileout))
+			{
+				Console.WriteLine("1");
+				skData.SaveTo(stream1);
+				Console.WriteLine("0");
+			}
 		}
 
 		private void openButtonClicked(object sender, EventArgs e)
 		{
+			openFrameBool = true;
+		}
+
+		private void openFrame(string extPath)
+        {
+			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
+			string path = folder.Path;
+			string filePath = path + extPath;
+
 
 		}
 
 		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
 		{
-			canvasView.HeightRequest = DeviceDisplay.MainDisplayInfo.Height;
+			var haight = DeviceDisplay.MainDisplayInfo.Height;
+			var wight = DeviceDisplay.MainDisplayInfo.Width;
+			canvasView.HeightRequest = haight;
 
 			var surface = e.Surface;
 			var canvas = surface.Canvas;
 
 			canvas.Clear(SKColors.White);
-			if (clear == true)
+			if (clearBool == true)
 			{
-				clear = false;
+				clearBool = false;
 				temporaryPaths.Clear();
 				paths.Clear();
 				return;
 			}
+			if (saveFrameBool == true)
+			{
+				Console.WriteLine("smth");
+				saveFrameBool = false;
+				saveFrame(surface, extPath);
+				return;
+            }
+			if (openFrameBool == true)
+            {
+				Console.WriteLine("ну тоже робит вроде");
+				openFrameBool = false;
+				//openFrame(extPath);
+				IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
+				string path = folder.Path;
+				string fileout = path + extPath;
 
+				//temporaryPaths.Clear();
+				//paths.Clear();
+
+				var bitmap = SKBitmap.Decode(fileout);
+
+				Console.WriteLine(fileout);
+				canvas.DrawBitmap(bitmap, Convert.ToInt32(haight), Convert.ToInt32(wight));
+
+				canvas.Restore();
+			}
 			var touchPathStroke = new SKPaint
 			{
 				IsAntialias = true,
