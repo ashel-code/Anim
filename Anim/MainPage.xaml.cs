@@ -14,10 +14,10 @@ using System.IO;
 
 namespace Anim
 {
-    public partial class MainPage : ContentPage
-    {
-        private readonly Dictionary<long, SKPath> temporaryPaths = new Dictionary<long, SKPath>();
-        private readonly List<SKPath> paths = new List<SKPath>();
+	public partial class MainPage : ContentPage
+	{
+		private readonly Dictionary<long, SKPath> temporaryPaths = new Dictionary<long, SKPath>();
+		private readonly List<SKPath> paths = new List<SKPath>();
 		bool clearBool = false;
 		bool saveFrameBool = false;
 		bool openFrameBool = false;
@@ -30,26 +30,6 @@ namespace Anim
 
 		static readonly HttpClient client = new HttpClient();
 
-		static async Task<string> apiRequest(int id) // it must return some value but it doesn't
-		{
-			// Call asynchronous network methods in a try/catch block to handle exceptions.
-			try
-			{
-				string responseBody = await client.GetStringAsync("http://192.168.1.48/image/0");
-				Console.WriteLine("!!!" + responseBody);
-				return responseBody;
-			}
-			catch (HttpRequestException e)
-			{
-				Console.WriteLine("\n!!!Exception Caught!");
-				Console.WriteLine("crya Message :{0} ", e.Message);
-				return null;
-			}
-		}
-
-
-	//  http://185.145.127.69/ai-quotes/0
-	//  http://192.168.1.48/ai-quotes/0
 
 		public MainPage()
 		{
@@ -63,38 +43,22 @@ namespace Anim
 
 		}
 
-		void doMagic(object sender, EventArgs e)
-        {
-			
-        }
-
-		private void clearButtonClicked(object sender, EventArgs e)
-        {
-			clearBool = true;
-			canvasView.InvalidateSurface();
-		}
-
 		private void convertToString(SkiaSharp.SKSurface surface)
-        {
-			
-			
+		{
+
+
 		}
 
-		private void saveButtonClicked(object sender, EventArgs e)
-        {
-			saveFrameBool = true;
-			canvasView.InvalidateSurface();
-		}
 
-		private void saveFrame(SKSurface surface, string extPath)
-        {
+		private void saveFrame(SkiaSharp.SKSurface surface, string extPath)
+		{
 			SKData skData = surface.Snapshot().Encode();
 
 			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
 			string path = folder.Path;
 			string fileout = path + extPath;
 
-			Console.WriteLine("2");
+			Console.WriteLine(fileout);
 			// Plan A)
 			using (Stream stream1 = File.OpenWrite(fileout))
 			{
@@ -102,32 +66,25 @@ namespace Anim
 				skData.SaveTo(stream1);
 				Console.WriteLine("0");
 			}
-		}
-
-		private void openButtonClicked(object sender, EventArgs e)
-		{
-			openFrameBool = true;
 			canvasView.InvalidateSurface();
 		}
 
-		private SKBitmap openFrame(string extPath)
-        {
+
+		private void openFrame(string extPath)
+		{
 			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
 			string path = folder.Path;
-			string fileout = path + extPath;
+			string filePath = path + extPath;
 
-			//temporaryPaths.Clear();
-			//paths.Clear();
 
-			var bitmap = SKBitmap.Decode(fileout);
-			Console.WriteLine("!!!");
-			return bitmap;
 		}
 
 		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
 		{
+
 			var height = DeviceDisplay.MainDisplayInfo.Height;
 			var wight = DeviceDisplay.MainDisplayInfo.Width;
+
 			canvasView.HeightRequest = height;
 
 			var surface = e.Surface;
@@ -137,6 +94,7 @@ namespace Anim
 
 			if (clearBool == true)
 			{
+				Console.WriteLine("cleared");
 				clearBool = false;
 				temporaryPaths.Clear();
 				paths.Clear();
@@ -148,25 +106,28 @@ namespace Anim
 				saveFrameBool = false;
 				Console.WriteLine("smth");
 				saveFrame(surface, extPath);
-
 				return;
-
 			}
 
 			if (openFrameBool == true)
-            {
-				Console.WriteLine("ну тоже робит вроде");
+			{
 				openFrameBool = false;
+				Console.WriteLine("ну тоже робит вроде");
+				//openFrame(extPath);
+				IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
+				string path = folder.Path;
+				string fileout = path + extPath;
+				Console.WriteLine("!!!    " + fileout);
+				//temporaryPaths.Clear();
+				//paths.Clear();
 
-				var bitmap = openFrame(extPath);
+				var bitmap = SKBitmap.Decode(fileout);
 
-				canvas.DrawBitmap(bitmap, Convert.ToInt32(height), Convert.ToInt32(wight));
-
+				//canvas.DrawBitmap(bitmap, Convert.ToInt32(height), Convert.ToInt32(wight));
+				canvas.DrawBitmap(bitmap, 0, 0);
 				canvas.Restore();
+				canvasView.InvalidateSurface();
 			}
-
-
-
 			var touchPathStroke = new SKPaint
 			{
 				IsAntialias = true,
@@ -185,7 +146,7 @@ namespace Anim
 				canvas.DrawPath(touchPath, touchPathStroke);
 			}
 
-		
+
 		}
 
 		private void OnTouch(object sender, SKTouchEventArgs e)
@@ -214,23 +175,35 @@ namespace Anim
 					temporaryPaths.Remove(e.Id);
 					break;
 			}
-			
+
 			// update the UI
 			if (e.InContact)
 				((SKCanvasView)sender).InvalidateSurface();
 
 			// we have handled these events
-			e.Handled = true;	
+			e.Handled = true;
 		}
 
-		private void eraserButtonClicked(object sender, EventArgs e)
-        {
 
-        }
 
-		private void pencilButtonClicked(object sender, EventArgs e)
+		static async Task<string> apiRequest(int id) // it must return some value but it doesn't
 		{
-
+			// Call asynchronous network methods in a try/catch block to handle exceptions.
+			try
+			{
+				string responseBody = await client.GetStringAsync("http://192.168.1.48/image/0");
+				Console.WriteLine("!!!" + responseBody);
+				return responseBody;
+			}
+			catch (HttpRequestException e)
+			{
+				Console.WriteLine("\n!!!Exception Caught!");
+				Console.WriteLine("crya Message :{0} ", e.Message);
+				return null;
+			}
 		}
+
+		//  http://185.145.127.69/ai-quotes/0
+		//  http://192.168.1.48/ai-quotes/0
 	}
 }
