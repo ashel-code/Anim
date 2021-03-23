@@ -18,23 +18,18 @@ namespace Anim
 	{
 		private void saveButtonClicked(object sender, EventArgs e)
 		{
-			saveFrameBool = true;
-			canvasView.InvalidateSurface();
+			saveFrame(surface, tmpPath);
 		}
 
 
 		private void openButtonClicked(object sender, EventArgs e)
 		{
-			Console.WriteLine("что");
-			openFrameBool = true;
-			canvasView.InvalidateSurface();
+			openFrame(tmpPath);
 		}
 
 		private void clearButtonClicked(object sender, EventArgs e)
 		{
-			Console.WriteLine("clear pressed");
-			clearBool = true;
-			canvasView.InvalidateSurface();
+			clear();
 		}
 
 		private void eraserButtonClicked(object sender, EventArgs e)

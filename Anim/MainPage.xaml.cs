@@ -22,18 +22,29 @@ namespace Anim
 		bool saveFrameBool = false;
 		bool openFrameBool = false;
 
-		// tmp:
-		string extPath = "/outfile.jpg";
+		// graphics and drawing
 
+		double height = DeviceDisplay.MainDisplayInfo.Height;
+		double wight = DeviceDisplay.MainDisplayInfo.Width;
+
+		SKSurface surface;
+		SKCanvas canvas;
+
+		// for carusel
 		public string[] Frames { get; set; }
 		public List<Image> FrameImages { get; set; }
 
+		// for api
 		static readonly HttpClient client = new HttpClient();
 
+
+		// tmp:
+		string tmpPath = "/outfile.jpg";
 
 		public MainPage()
 		{
 			InitializeComponent();
+			canvasView.HeightRequest = height;
 			Frames = new string[] { "1", "2", "3" };
 			this.BindingContext = this;
 			// Console.WriteLine("#######");
@@ -43,12 +54,19 @@ namespace Anim
 
 		}
 
-		private void convertToString(SkiaSharp.SKSurface surface)
+		private void clear()
 		{
+			Console.WriteLine("cleared");
+			canvas.Clear(SKColors.White);
 
+			Console.WriteLine("cleared2");
+			temporaryPaths.Clear();
 
+			Console.WriteLine("cleared1");
+			paths.Clear();
+
+			Console.WriteLine("cleared3");
 		}
-
 
 		private void saveFrame(SkiaSharp.SKSurface surface, string extPath)
 		{
@@ -69,66 +87,38 @@ namespace Anim
 			canvasView.InvalidateSurface();
 		}
 
-
 		private void openFrame(string extPath)
-		{
+        {
+			Console.WriteLine("ну тоже робит вроде");
 			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
 			string path = folder.Path;
-			string filePath = path + extPath;
+			string fileout = path + extPath;
+			Console.WriteLine("!!!    " + fileout);
+			var bitmap = SKBitmap.Decode(fileout);
+
+			canvas.DrawBitmap(bitmap, 0, 0);
+			canvas.Restore();
+			canvasView.InvalidateSurface();
+		}
+
+		private void convertFrameToString(SkiaSharp.SKSurface surface)
+		{
 
 
 		}
 
+
 		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
 		{
-
-			var height = DeviceDisplay.MainDisplayInfo.Height;
-			var wight = DeviceDisplay.MainDisplayInfo.Width;
-
-			canvasView.HeightRequest = height;
-
-			var surface = e.Surface;
-			var canvas = surface.Canvas;
-
-			
-
-			if (clearBool == true)
-			{
-				Console.WriteLine("cleared");
-				canvas.Clear(SKColors.White);
-				clearBool = false;
-				temporaryPaths.Clear();
-				paths.Clear();
-				return;
-			}
-
-			if (saveFrameBool == true)
-			{
-				saveFrameBool = false;
-				Console.WriteLine("smth");
-				saveFrame(surface, extPath);
-				return;
-			}
+			surface = e.Surface;
+			canvas = surface.Canvas;
 
 			if (openFrameBool == true)
 			{
 				openFrameBool = false;
-				Console.WriteLine("ну тоже робит вроде");
-				//openFrame(extPath);
-				IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
-				string path = folder.Path;
-				string fileout = path + extPath;
-				Console.WriteLine("!!!    " + fileout);
-				//temporaryPaths.Clear();
-				//paths.Clear();
-
-				var bitmap = SKBitmap.Decode(fileout);
-
-				//canvas.DrawBitmap(bitmap, Convert.ToInt32(height), Convert.ToInt32(wight));
-				canvas.DrawBitmap(bitmap, 0, 0);
-				canvas.Restore();
-				canvasView.InvalidateSurface();
+				
 			}
+
 			var touchPathStroke = new SKPaint
 			{
 				IsAntialias = true,
