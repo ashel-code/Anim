@@ -109,12 +109,25 @@ namespace Anim
 
 		}
 
+<<<<<<< HEAD
 
 		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
 		{
 			Console.WriteLine("iiiiii");
 			surface = e.Surface;
 			canvas = surface.Canvas;
+=======
+			canvas.Clear(SKColors.White);
+
+			if (clearBool == true)
+			{
+				Console.WriteLine("cleared");
+				clearBool = false;
+				temporaryPaths.Clear();
+				paths.Clear();
+				return;
+			}
+>>>>>>> parent of eb843f6... save/open working
 
 
 			var touchPathStroke = new SKPaint

@@ -29,7 +29,12 @@ namespace Anim
 
 		private void clearButtonClicked(object sender, EventArgs e)
 		{
+<<<<<<< HEAD
 			clear();
+=======
+			clearBool = true;
+			canvasView.InvalidateSurface();
+>>>>>>> parent of eb843f6... save/open working
 		}
 
 		private void eraserButtonClicked(object sender, EventArgs e)
