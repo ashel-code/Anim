@@ -32,6 +32,7 @@ namespace Anim
 
 		private void clearButtonClicked(object sender, EventArgs e)
 		{
+			Console.WriteLine("clear pressed");
 			clearBool = true;
 			canvasView.InvalidateSurface();
 		}

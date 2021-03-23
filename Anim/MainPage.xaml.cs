@@ -90,11 +90,12 @@ namespace Anim
 			var surface = e.Surface;
 			var canvas = surface.Canvas;
 
-			canvas.Clear(SKColors.White);
+			
 
 			if (clearBool == true)
 			{
 				Console.WriteLine("cleared");
+				canvas.Clear(SKColors.White);
 				clearBool = false;
 				temporaryPaths.Clear();
 				paths.Clear();
