@@ -56,8 +56,10 @@ namespace Anim
 
 		private void clear()
 		{
+
 			Console.WriteLine("cleared");
-			canvas.Clear(SKColors.White);
+
+			//canvas.Clear(SKColors.White);
 
 			Console.WriteLine("cleared2");
 			temporaryPaths.Clear();
@@ -66,6 +68,7 @@ namespace Anim
 			paths.Clear();
 
 			Console.WriteLine("cleared3");
+			canvasView.
 		}
 
 		private void saveFrame(SkiaSharp.SKSurface surface, string extPath)
@@ -104,20 +107,15 @@ namespace Anim
 		private void convertFrameToString(SkiaSharp.SKSurface surface)
 		{
 
-
 		}
 
 
 		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
 		{
+			Console.WriteLine("iiiiii");
 			surface = e.Surface;
 			canvas = surface.Canvas;
 
-			if (openFrameBool == true)
-			{
-				openFrameBool = false;
-				
-			}
 
 			var touchPathStroke = new SKPaint
 			{
