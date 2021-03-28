@@ -18,23 +18,23 @@ namespace Anim
 	{
 		private void saveButtonClicked(object sender, EventArgs e)
 		{
-			saveFrame(surface, tmpPath);
+			saveFrameBool = true;
+			canvasView.InvalidateSurface();
 		}
 
 
 		private void openButtonClicked(object sender, EventArgs e)
 		{
-			openFrame(tmpPath);
+			Console.WriteLine("что");
+			openFrameBool = true;
+			canvasView.InvalidateSurface();
 		}
 
 		private void clearButtonClicked(object sender, EventArgs e)
 		{
-<<<<<<< HEAD
-			clear();
-=======
+			Console.WriteLine("clear pressed");
 			clearBool = true;
 			canvasView.InvalidateSurface();
->>>>>>> parent of eb843f6... save/open working
 		}
 
 		private void eraserButtonClicked(object sender, EventArgs e)

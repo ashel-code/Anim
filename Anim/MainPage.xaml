@@ -2,72 +2,86 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Anim.MainPage"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms">
-    <StackLayout>
-        <Frame BackgroundColor="#2196F3" Padding="10" CornerRadius="0">
-            <Label x:Name="lbl1" Text="Welcome to Anim!" HorizontalTextAlignment="Center" TextColor="White" FontSize="18" />
-        </Frame>
-        <StackLayout Orientation="Horizontal" Margin="200,0,0,0" VerticalOptions="Start" Visual="Default" HorizontalOptions="Fill" ScaleY="1">
-            <Button Text="save"
-                    Clicked = "saveButtonClicked"
-                    IsVisible="true"
-                    HorizontalOptions="Center"
-                    BackgroundColor="#2196F3"
-                    TextColor="#FFFFFF"/>
-            
-            <Button Text="open"
-                    Clicked = "openButtonClicked"
-                    IsVisible="true"
-                    HorizontalOptions="Center" Margin="0,0,20,0"
-                    BackgroundColor="#2196F3"
-                    TextColor="#FFFFFF"/>
-
-            <Button Text="clear"
-                    Clicked="clearButtonClicked"
-                    IsVisible="true"
-                    HorizontalOptions="EndAndExpand"
-                    BackgroundColor="#2196F3"
-                    TextColor="#FFFFFF"/>
-
-            <Button Text="magic"
-                    Clicked="doMagic"
-                    IsVisible="true"
-                    HorizontalOptions="End" Margin="0,0,20,0"
-                    BackgroundColor="#2196F3"
-                    TextColor="#FFFFFF"/>
-
-        </StackLayout>
-
-        <StackLayout Orientation="Vertical" Margin="10,0,0,0" HorizontalOptions="Start" >
-            <Button Text="Eraser"
+    <StackLayout Background="#f">
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1.25*"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Eraser"
                     Clicked="eraserButtonClicked"
                     IsVisible="true"
-                    VerticalOptions="Start"
                     BackgroundColor="#2196F3"
                     TextColor="#FFFFFF"/>
-
-            <Button Text="Pencil"
+            <Button Grid.Row="1"
+                    Grid.Column="0"
+                    Text="Eraser"
+                    Clicked="eraserButtonClicked"
+                    IsVisible="true"
+                    BackgroundColor="#2196F3"
+                    TextColor="#FFFFFF"/>
+            <Button Grid.Row="2"
+                    Grid.Column="0"
+                    Text="Pencil"
                     Clicked="pencilButtonClicked"
                     IsVisible="true"
-                    VerticalOptions="Start"
                     BackgroundColor="#2196F3"
                     TextColor="#FFFFFF"/>
 
-        </StackLayout>
-        
-        <!--ListView Rotation="0" x:Name="frameList" ItemsSource="{Binding Frames}" /-->
+            <skia:SKCanvasView Grid.Row="0"
+                               Grid.Column="1"
+                               Grid.RowSpan="5"
+                               x:Name="canvasView"
+                               PaintSurface="canvasView_PaintSurface"
+                               EnableTouchEvents="True"
+                               Touch="OnTouch"/>
 
-        <skia:SKCanvasView x:Name="canvasView"
-                           PaintSurface="canvasView_PaintSurface"
-                           EnableTouchEvents="True"
-                           Touch="OnTouch"/>
-        <ContentView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <!--CarouselView ItemsSource="{Binding MyDataSource}">
-                <CarouselView.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="" />
-                    </DataTemplate>
-                </CarouselView.ItemTemplate>
-            </-->
-        </ContentView>
+            <Button Grid.Row="0"
+                    Grid.Column="2"
+                    Text="save"
+                    Clicked = "saveButtonClicked"
+                    IsVisible="true"
+                    BackgroundColor="#2196F3"
+                    TextColor="#FFFFFF"/>
+            <Button Grid.Row="1"
+                    Grid.Column="2"
+                    Text="open"
+                    Clicked = "openButtonClicked"
+                    IsVisible="true"
+                    BackgroundColor="#2196F3"
+                    TextColor="#FFFFFF"/>
+            <Button Grid.Row="2"
+                    Grid.Column="2"
+                    Text="clear"
+                    Clicked="clearButtonClicked"
+                    IsVisible="true"
+                    BackgroundColor="#2196F3"
+                    TextColor="#FFFFFF"/>
+            <Button Grid.Row="3"
+                    Grid.Column="2"
+                    Text="magic"
+                    Clicked="doMagic"
+                    IsVisible="true"
+                    BackgroundColor="#2196F3"
+                    TextColor="#FFFFFF"/>
+
+            <CarouselView Grid.Row="5"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="3"
+                          
+                          />
+        </Grid>    
     </StackLayout>
 </ContentPage>
