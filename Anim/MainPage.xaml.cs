@@ -16,51 +16,74 @@ namespace Anim
 {
 	public partial class MainPage : ContentPage
 	{
+		// paths for canvas
 		private readonly Dictionary<long, SKPath> temporaryPaths = new Dictionary<long, SKPath>();
 		private readonly List<SKPath> paths = new List<SKPath>();
+
+		// bools for buttons
 		bool clearBool = false;
 		bool saveFrameBool = false;
 		bool openFrameBool = false;
 
 		// tmp:
-		string extPath = "/outfile.jpg";
+		static string extPath = "/outfile.jpg";
 
-		public string[] Frames { get; set; }
-		public List<Image> FrameImages { get; set; }
-
+		// net
 		static readonly HttpClient client = new HttpClient();
 
-
+		// for frames
+		IFolder folder;
+		string path;
+		string filePath;
+		List<string> images;
+		
 		public MainPage()
 		{
 			InitializeComponent();
-			Frames = new string[] { "1", "2", "3" };
 			this.BindingContext = this;
-			// Console.WriteLine("#######");
-			// string smth = apiRequest(0).ToString();
-			// Console.WriteLine("!!!!!!!" + smth);
-			// Console.WriteLine("#######");
 
+			// updateFrameImage();
+
+
+			folder = PCLStorage.FileSystem.Current.LocalStorage;
+			path = folder.Path;
+			filePath = path + extPath;
+			
+			var names = new List<string>
+			{
+				"1"
+			};
+
+			images = new List<string>
+			{
+				filePath
+			};
+			this.MainCarouselView.ItemsSource = images;
 		}
+
+		async void updateFrameImage()
+        {
+
+        }
 
 		private void convertToString(SkiaSharp.SKSurface surface)
 		{
 
-
+			
 		}
 
 
-		private void saveFrame(SkiaSharp.SKSurface surface, string extPath)
+		private void saveFrame(SkiaSharp.SKSurface surface, string extPathSaving)
 		{
 			SKData skData = surface.Snapshot().Encode();
 
-			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
-			string path = folder.Path;
-			string fileout = path + extPath;
+			IFolder folderSaving = PCLStorage.FileSystem.Current.LocalStorage;
+			string pathSaving = folder.Path;
+			string fileoutSaving = pathSaving + extPathSaving;
 
-			Console.WriteLine(fileout);
+			Console.WriteLine(fileoutSaving);
 			// Plan A)
-			using (Stream stream1 = File.OpenWrite(fileout))
+			using (Stream stream1 = File.OpenWrite(fileoutSaving))
 			{
 				Console.WriteLine("1");
 				skData.SaveTo(stream1);
@@ -107,6 +130,8 @@ namespace Anim
 				saveFrameBool = false;
 				Console.WriteLine("smth");
 				saveFrame(surface, extPath);
+
+				this.MainCarouselView.ItemsSource = images;
 				return;
 			}
 
