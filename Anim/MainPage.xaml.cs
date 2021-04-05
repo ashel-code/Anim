@@ -11,6 +11,7 @@ using Xamarin.Essentials;
 using System.Net.Http;
 using PCLStorage;
 using System.IO;
+using System.Threading;
 
 namespace Anim
 {
@@ -24,7 +25,7 @@ namespace Anim
 		bool clearBool = false;
 		bool saveFrameBool = false;
 		bool openFrameBool = false;
-
+		bool updateFrameBool = false;
 		// tmp:
 		static string extPath = "/outfile.jpg";
 
@@ -42,7 +43,6 @@ namespace Anim
 			InitializeComponent();
 			this.BindingContext = this;
 
-			// updateFrameImage();
 
 
 			folder = PCLStorage.FileSystem.Current.LocalStorage;
@@ -59,11 +59,24 @@ namespace Anim
 				filePath
 			};
 			this.MainCarouselView.ItemsSource = images;
+
+			updateFrameBool = true;
+
+			Thread thread = new Thread(updateFrameImage);
 		}
 
-		async void updateFrameImage()
+		async private void updateFrameImage()
         {
-
+			Console.WriteLine("!!!");
+			Console.WriteLine("!!12e123!");
+			while (updateFrameBool)
+			{
+					Console.WriteLine("are");
+					Thread.Sleep(1000);
+					saveFrameBool = true;
+					canvasView.InvalidateSurface();
+					MainCarouselView.ItemsSource = images.ToArray();
+            }
         }
 
 		private void convertToString(SkiaSharp.SKSurface surface)
@@ -89,6 +102,9 @@ namespace Anim
 				skData.SaveTo(stream1);
 				Console.WriteLine("0");
 			}
+
+			images.Add(fileoutSaving);
+			
 			canvasView.InvalidateSurface();
 		}
 
@@ -130,8 +146,10 @@ namespace Anim
 				saveFrameBool = false;
 				Console.WriteLine("smth");
 				saveFrame(surface, extPath);
-
-				this.MainCarouselView.ItemsSource = images;
+				Console.WriteLine("±±±±±±±");
+				images.ForEach(i => Console.Write("{0}\t", i));
+				Console.WriteLine("±±±±±±1111±");
+				this.BindingContext = this;
 				return;
 			}
 

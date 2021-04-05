@@ -39,7 +39,10 @@ namespace Anim
 
 		private void eraserButtonClicked(object sender, EventArgs e)
 		{
-
+			Console.WriteLine("are");
+			saveFrameBool = true;
+			canvasView.InvalidateSurface();
+			MainCarouselView.ItemsSource = images.ToArray();
 		}
 
 		private void pencilButtonClicked(object sender, EventArgs e)

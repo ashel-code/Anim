@@ -82,7 +82,8 @@
             <CarouselView x:Name="MainCarouselView"
                           Grid.Row="5"
                           Grid.Column="0"
-                          Grid.ColumnSpan="3">
+                          Grid.ColumnSpan="3"
+                          Loop="False">
 
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
