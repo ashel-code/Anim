@@ -66,10 +66,7 @@ namespace Anim
 			path = folder.Path;
 			filePath = path + extPath;
 			
-			//var names = new List<string>
-			//{
-			//	"1"
-			//};
+			
 
 			images = new List<string>
 			{
@@ -163,41 +160,36 @@ namespace Anim
                 StrokeWidth = 5
             };
 
-            // draw the paths
-            foreach (KeyValuePair<long, SKPath> touchPath in temporaryPaths)
-            {
-                canvas.DrawPath(touchPath.Value, touchPathStroke);
-            }
-            NewMwethod(canvas, touchPathStroke);
+			// draw the paths
+			foreach (KeyValuePair<long, SKPath> touchPath in temporaryPaths)
+			{
+				canvas.DrawPath(touchPath.Value, touchPathStroke);
+			}
+			foreach (SKPath touchPath in paths)
+			{
+				canvas.DrawPath(touchPath, touchPathStroke);
+			}
 
-        }
-
-        private void NewMethod(SKCanvas canvas, SKPaint touchPathStroke)
-        {
-            foreach (var touchPath in paths)
-            {
-                canvas.DrawPath(touchPath, touchPathStroke);
-            }
-        }
+		}
 
         private void OnTouch(object sender, SKTouchEventArgs e)
 		{
 			switch (e.ActionType)
 			{
 				case SKTouchAction.Pressed:
-					// start of a stroke
-					var p = new SKPath();
+                    // start of a stroke
+                    SKPath p = new SKPath();
 					p.MoveTo(e.Location);
 					temporaryPaths[e.Id] = p;
 					break;
 				case SKTouchAction.Moved:
 					// the stroke, while pressed
-					if (e.InContact && temporaryPaths.TryGetValue(e.Id, out var moving))
+					if (e.InContact && temporaryPaths.TryGetValue(e.Id, out SKPath moving))
 						moving.LineTo(e.Location);
 					break;
 				case SKTouchAction.Released:
 					// end of a stroke
-					if (temporaryPaths.TryGetValue(e.Id, out var releasing))
+					if (temporaryPaths.TryGetValue(e.Id, out SKPath releasing))
 						paths.Add(releasing);
 					temporaryPaths.Remove(e.Id);
 					break;
