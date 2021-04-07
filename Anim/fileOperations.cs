@@ -32,19 +32,18 @@ namespace Anim
 			string pathSaving = folderSaving.Path;
 			string fileoutSaving = pathSaving + extPathSaving;
 
-			// Plan A
+			// Plan A)
 			using (Stream stream1 = File.OpenWrite(fileoutSaving))
 			{
 				skData.SaveTo(stream1);
 			}
 
-			//images.Add(fileoutSaving);
+			images.Add(fileoutSaving);
 
 			canvasView.InvalidateSurface();
 		}
 
-        [Obsolete]
-        private void saveFrameForCarouselView(SkiaSharp.SKSurface surface, string extPathSaving)
+		private void saveFrameForCarouselView(SkiaSharp.SKSurface surface, string extPathSaving)
 		{
 			cutForCarouselview = false;
 
@@ -58,16 +57,16 @@ namespace Anim
 			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
 			string path = folder.Path;
 			string fileout = path + extPath;
-			//temporaryPaths.Clear();
-			//paths.Clear();
-			
-			var bitmap = SKBitmap.Decode(fileout);
+            //temporaryPaths.Clear();
+            //paths.Clear();
 
-			//SKBitmap resized = bitmap.Resize(new SKImageInfo(Convert.ToInt32(carouselFrameWight), Convert.ToInt32(carouselFrameHeight)), SKBitmapResizeMethod.Lanczos3);
-			//var image = SKImage.FromBitmap(resized);
-			var resized = bitmap.Resize(new SKImageInfo(400, 400), SKBitmapResizeMethod.Lanczos3);
-			var image = SKImage.FromBitmap(resized);
-			
+            SKBitmap bitmap = SKBitmap.Decode(fileout);
+
+			SKImageInfo imageInfo = new SKImageInfo(Convert.ToInt32(carouselFrameWight), Convert.ToInt32(carouselFrameHeight));
+
+			SKBitmap resized = bitmap.Resize(imageInfo, SKBitmapResizeMethod.Lanczos3);
+            SKImage image = SKImage.FromBitmap(resized);
+
 			SKData skData = image.Encode();
 			IFolder folderSaving = PCLStorage.FileSystem.Current.LocalStorage;
 			string pathSaving = folderSaving.Path;
@@ -81,28 +80,6 @@ namespace Anim
 
 			images.Add(fileoutSaving);
 			MainCarouselView.ItemsSource = images.ToArray();
-		}
-
-
-		//private void saveFrameWithth(string savingFilePath, bool isForCarousel)
-        //{
-		//	if (isForCarousel)
-        //    {
-		//		cutForCarouselview = true;
-        //    }
-		//	filePath = savingFilePath;
-		//	saveFrameBool = true;
-		//	canvasView.InvalidateSurface();
-		//}
-
-
-		private void saveFrameForCarouselView(int frameIndex)
-        {
-			cutForCarouselview = true;
-
-			filePath = "carouselFrame" + frameIndex.ToString() + ".jpg";
-			saveFrameBool = true;
-			canvasView.InvalidateSurface();
 		}
 
 

@@ -101,83 +101,86 @@ namespace Anim
 
 
 		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
-		{
+        {
 
-			var height = DeviceDisplay.MainDisplayInfo.Height;
-			var wight = DeviceDisplay.MainDisplayInfo.Width;
+            double height = DeviceDisplay.MainDisplayInfo.Height;
+            double wight = DeviceDisplay.MainDisplayInfo.Width;
 
-			canvasView.HeightRequest = height;
+            canvasView.HeightRequest = height;
 
-			var surface = e.Surface;
-			var canvas = surface.Canvas;
+            SKSurface surface = e.Surface;
+            SKCanvas canvas = surface.Canvas;
 
 
 
-			if (clearBool == true)
-			{
-				canvas.Clear(SKColors.White);
-				clearBool = false;
-				temporaryPaths.Clear();
-				paths.Clear();
-				return;
-			}
+            if (clearBool == true)
+            {
+                canvas.Clear(SKColors.White);
+                clearBool = false;
+                temporaryPaths.Clear();
+                paths.Clear();
+                return;
+            }
 
-			if (saveFrameBool == true)
-			{
-				saveFrameBool = false;
-				if (cutForCarouselview)
+            if (saveFrameBool == true)
+            {
+                saveFrameBool = false;
+                if (cutForCarouselview)
                 {
-					saveFrameForCarouselView(surface, extPath);
+                    saveFrameForCarouselView(surface, extPath);
                 }
                 else
                 {
-					saveFrame(surface, extPath);
-				}
-				//images.ForEach(i => Console.Write("{0}\t", i));
-				this.BindingContext = this;
-				return;
-			}
+                    saveFrame(surface, extPath);
+                }
+                //images.ForEach(i => Console.Write("{0}\t", i));
+                this.BindingContext = this;
+                return;
+            }
 
-			if (openFrameBool == true)
-			{
-				openFrameBool = false;
-				//openFrame(extPath);
-				IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
-				string path = folder.Path;
-				string fileout = path + extPath;
-				//temporaryPaths.Clear();
-				//paths.Clear();
+            if (openFrameBool == true)
+            {
+                openFrameBool = false;
+                //openFrame(extPath);
+                IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
+                string path = folder.Path;
+                string fileout = path + extPath;
+                //temporaryPaths.Clear();
+                //paths.Clear();
 
-				var bitmap = SKBitmap.Decode(fileout);
+                SKBitmap bitmap = SKBitmap.Decode(fileout);
 
-				//canvas.DrawBitmap(bitmap, Convert.ToInt32(height), Convert.ToInt32(wight));
-				canvas.DrawBitmap(bitmap, 0, 0);
-				canvas.Restore();
-				canvasView.InvalidateSurface();
-			}
-			var touchPathStroke = new SKPaint
-			{
-				IsAntialias = true,
-				Style = SKPaintStyle.Stroke,
-				Color = SKColors.Purple,
-				StrokeWidth = 5
-			};
+                //canvas.DrawBitmap(bitmap, Convert.ToInt32(height), Convert.ToInt32(wight));
+                canvas.DrawBitmap(bitmap, 0, 0);
+                canvas.Restore();
+                canvasView.InvalidateSurface();
+            }
+            SKPaint touchPathStroke = new SKPaint
+            {
+                IsAntialias = true,
+                Style = SKPaintStyle.Stroke,
+                Color = SKColors.Purple,
+                StrokeWidth = 5
+            };
 
-			// draw the paths
-			foreach (var touchPath in temporaryPaths)
-			{
-				canvas.DrawPath(touchPath.Value, touchPathStroke);
-			}
-			foreach (var touchPath in paths)
-			{
-				canvas.DrawPath(touchPath, touchPathStroke);
-			}
+            // draw the paths
+            foreach (KeyValuePair<long, SKPath> touchPath in temporaryPaths)
+            {
+                canvas.DrawPath(touchPath.Value, touchPathStroke);
+            }
+            NewMwethod(canvas, touchPathStroke);
 
+        }
 
-		}
+        private void NewMethod(SKCanvas canvas, SKPaint touchPathStroke)
+        {
+            foreach (var touchPath in paths)
+            {
+                canvas.DrawPath(touchPath, touchPathStroke);
+            }
+        }
 
-
-		private void OnTouch(object sender, SKTouchEventArgs e)
+        private void OnTouch(object sender, SKTouchEventArgs e)
 		{
 			switch (e.ActionType)
 			{
