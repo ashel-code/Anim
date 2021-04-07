@@ -63,6 +63,9 @@ namespace Anim
             SKBitmap bitmap = SKBitmap.Decode(fileout);
 
 			SKImageInfo imageInfo = new SKImageInfo(Convert.ToInt32(carouselFrameWight), Convert.ToInt32(carouselFrameHeight));
+			Console.WriteLine("!!!!!!!!!!!!!!!!!!");
+			Console.WriteLine(Convert.ToInt32(carouselFrameWight));
+			Console.WriteLine(Convert.ToInt32(carouselFrameHeight));
 
 			SKBitmap resized = bitmap.Resize(imageInfo, SKBitmapResizeMethod.Lanczos3);
             SKImage image = SKImage.FromBitmap(resized);
@@ -91,6 +94,14 @@ namespace Anim
 			canvasView.InvalidateSurface();
 		}
 
+		private void saveFrameForCarouselView(int frameIndex)
+		{
+			cutForCarouselview = true;
+
+			filePath = "carouselFrame" + frameIndex.ToString() + ".jpg";
+			saveFrameBool = true;
+			canvasView.InvalidateSurface();
+		}
 
 		static async Task<string> apiRequest(int id) // it must return some value but it doesn't
 		{
