@@ -26,6 +26,8 @@ namespace Anim
 		bool saveFrameBool = false;
 		bool openFrameBool = false;
 		bool updateFrameBool = false;
+		bool cutForCarouselview = false;
+
 		// tmp:
 		static string extPath = "/outfile.jpg";
 
@@ -37,22 +39,37 @@ namespace Anim
 		string path;
 		string filePath;
 		List<string> images;
-		
+		int currentFrame;
+		double screenHeight;
+		double screenWight;
+
+		double carouselToScreenKoff;
+		double carouselFrameHeight;
+		double carouselFrameWight;
+
 		public MainPage()
 		{
 			InitializeComponent();
+
+			screenHeight = DeviceDisplay.MainDisplayInfo.Height;
+			screenWight = DeviceDisplay.MainDisplayInfo.Width;
+
+			carouselFrameHeight = MainCarouselView.Height;
+			carouselToScreenKoff = screenHeight / carouselFrameHeight;
+			carouselFrameWight = carouselFrameWight * carouselToScreenKoff;
+
 			this.BindingContext = this;
 
-
+			currentFrame = this.MainCarouselView.Position;
 
 			folder = PCLStorage.FileSystem.Current.LocalStorage;
 			path = folder.Path;
 			filePath = path + extPath;
 			
-			var names = new List<string>
-			{
-				"1"
-			};
+			//var names = new List<string>
+			//{
+			//	"1"
+			//};
 
 			images = new List<string>
 			{
@@ -61,62 +78,27 @@ namespace Anim
 			this.MainCarouselView.ItemsSource = images;
 
 			updateFrameBool = true;
+			// updateFrameImage();
+			//Thread thread = new Thread(updateFrameImage);
 
-			Thread thread = new Thread(updateFrameImage);
+
 		}
+
 
 		async private void updateFrameImage()
         {
-			Console.WriteLine("!!!");
-			Console.WriteLine("!!12e123!");
-			while (updateFrameBool)
+			new Thread(() =>
 			{
-					Console.WriteLine("are");
-					Thread.Sleep(1000);
-					saveFrameBool = true;
-					canvasView.InvalidateSurface();
-					MainCarouselView.ItemsSource = images.ToArray();
-            }
+			    Thread.CurrentThread.IsBackground = true;
+			    while (updateFrameBool)
+			    {
+				    Thread.Sleep(1000);
+					//saveFrameWithPath("carouselview.jpg", true);
+				    MainCarouselView.ItemsSource = images.ToArray();
+			    }
+		    }).Start();
         }
 
-		private void convertToString(SkiaSharp.SKSurface surface)
-		{
-
-			
-		}
-
-
-		private void saveFrame(SkiaSharp.SKSurface surface, string extPathSaving)
-		{
-			SKData skData = surface.Snapshot().Encode();
-
-			IFolder folderSaving = PCLStorage.FileSystem.Current.LocalStorage;
-			string pathSaving = folder.Path;
-			string fileoutSaving = pathSaving + extPathSaving;
-
-			Console.WriteLine(fileoutSaving);
-			// Plan A)
-			using (Stream stream1 = File.OpenWrite(fileoutSaving))
-			{
-				Console.WriteLine("1");
-				skData.SaveTo(stream1);
-				Console.WriteLine("0");
-			}
-
-			images.Add(fileoutSaving);
-			
-			canvasView.InvalidateSurface();
-		}
-
-
-		private void openFrame(string extPath)
-		{
-			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
-			string path = folder.Path;
-			string filePath = path + extPath;
-
-
-		}
 
 		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
 		{
@@ -133,7 +115,6 @@ namespace Anim
 
 			if (clearBool == true)
 			{
-				Console.WriteLine("cleared");
 				canvas.Clear(SKColors.White);
 				clearBool = false;
 				temporaryPaths.Clear();
@@ -144,11 +125,15 @@ namespace Anim
 			if (saveFrameBool == true)
 			{
 				saveFrameBool = false;
-				Console.WriteLine("smth");
-				saveFrame(surface, extPath);
-				Console.WriteLine("±±±±±±±");
-				images.ForEach(i => Console.Write("{0}\t", i));
-				Console.WriteLine("±±±±±±1111±");
+				if (cutForCarouselview)
+                {
+					saveFrameForCarouselView(surface, extPath);
+                }
+                else
+                {
+					saveFrame(surface, extPath);
+				}
+				//images.ForEach(i => Console.Write("{0}\t", i));
 				this.BindingContext = this;
 				return;
 			}
@@ -156,12 +141,10 @@ namespace Anim
 			if (openFrameBool == true)
 			{
 				openFrameBool = false;
-				Console.WriteLine("ну тоже робит вроде");
 				//openFrame(extPath);
 				IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
 				string path = folder.Path;
 				string fileout = path + extPath;
-				Console.WriteLine("!!!    " + fileout);
 				//temporaryPaths.Clear();
 				//paths.Clear();
 
@@ -192,6 +175,7 @@ namespace Anim
 
 
 		}
+
 
 		private void OnTouch(object sender, SKTouchEventArgs e)
 		{
@@ -227,27 +211,5 @@ namespace Anim
 			// we have handled these events
 			e.Handled = true;
 		}
-
-
-
-		static async Task<string> apiRequest(int id) // it must return some value but it doesn't
-		{
-			// Call asynchronous network methods in a try/catch block to handle exceptions.
-			try
-			{
-				string responseBody = await client.GetStringAsync("http://192.168.1.48/image/0");
-				Console.WriteLine("!!!" + responseBody);
-				return responseBody;
-			}
-			catch (HttpRequestException e)
-			{
-				Console.WriteLine("\n!!!Exception Caught!");
-				Console.WriteLine("crya Message :{0} ", e.Message);
-				return null;
-			}
-		}
-
-		//  http://185.145.127.69/ai-quotes/0
-		//  http://192.168.1.48/ai-quotes/0
 	}
 }

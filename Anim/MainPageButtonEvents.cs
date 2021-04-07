@@ -18,31 +18,26 @@ namespace Anim
 	{
 		private void saveButtonClicked(object sender, EventArgs e)
 		{
-			saveFrameBool = true;
-			canvasView.InvalidateSurface();
+			saveFrameWithPath(currentFrame);
 		}
 
 
 		private void openButtonClicked(object sender, EventArgs e)
 		{
-			Console.WriteLine("что");
 			openFrameBool = true;
 			canvasView.InvalidateSurface();
 		}
 
 		private void clearButtonClicked(object sender, EventArgs e)
 		{
-			Console.WriteLine("clear pressed");
 			clearBool = true;
 			canvasView.InvalidateSurface();
 		}
 
 		private void eraserButtonClicked(object sender, EventArgs e)
 		{
-			Console.WriteLine("are");
-			saveFrameBool = true;
-			canvasView.InvalidateSurface();
-			MainCarouselView.ItemsSource = images.ToArray();
+			saveFrameForCarouselView(currentFrame);
+			currentFrame++;
 		}
 
 		private void pencilButtonClicked(object sender, EventArgs e)
