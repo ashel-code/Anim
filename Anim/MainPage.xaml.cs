@@ -62,7 +62,7 @@ namespace Anim
 
 			this.BindingContext = this;
 
-			currentFrame = this.MainCarouselView.Position;
+			currentFrame = MainCarouselView.Position;
 
 			folder = PCLStorage.FileSystem.Current.LocalStorage;
 			path = folder.Path;
@@ -133,7 +133,7 @@ namespace Anim
                     saveFrame(surface, extPath);
                 }
                 //images.ForEach(i => Console.Write("{0}\t", i));
-                this.BindingContext = this;
+                BindingContext = this;
                 return;
             }
 

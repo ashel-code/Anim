@@ -16,12 +16,12 @@ namespace Anim
 {
 	public partial class MainPage : ContentPage
 	{
-		private void openFrame(string extPath)
-		{
-			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
-			string path = folder.Path;
-			string filePath = path + extPath;
-		}
+		//private void openFrame(string extPath)
+		//{
+		//	IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
+		//	string path = folder.Path;
+		//	string filePath = path + extPath;
+		//}
 
 
 		private void saveFrame(SkiaSharp.SKSurface surface, string extPathSaving)
@@ -38,9 +38,9 @@ namespace Anim
 				skData.SaveTo(stream1);
 			}
 
-			images.Add(fileoutSaving);
+			//images.Add(fileoutSaving);
 
-			canvasView.InvalidateSurface();
+			//canvasView.InvalidateSurface();
 		}
 
 		private void saveFrameForCarouselView(SkiaSharp.SKSurface surface, string extPathSaving)
