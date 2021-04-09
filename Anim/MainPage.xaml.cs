@@ -54,9 +54,6 @@ namespace Anim
 			screenHeight = DeviceDisplay.MainDisplayInfo.Height;
 			screenWight = DeviceDisplay.MainDisplayInfo.Width;
 
-			//carouselFrameHeight = MainCarouselView.Height;
-			//carouselToScreenKoff = screenHeight / carouselFrameHeight;
-			//carouselFrameWight = carouselFrameWight * carouselToScreenKoff;
 			carouselFrameHeight = (screenHeight / 6.25) * 1.25 / 2; 
 			carouselFrameWight = (screenWight / 6.25) * 1.25 / 2;
 
