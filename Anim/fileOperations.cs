@@ -16,108 +16,135 @@ namespace Anim
 {
 	public partial class MainPage : ContentPage
 	{
-		//private void openFrame(string extPath)
-		//{
-		//	IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
-		//	string path = folder.Path;
-		//	string filePath = path + extPath;
-		//}
-
-
+		// function fur usual saving image from canvas.
 		private void saveFrame(SkiaSharp.SKSurface surface, string extPathSaving)
 		{
+			// getting current forder
+			IFolder folderSaving = PCLStorage.FileSystem.Current.LocalStorage;
+			// getting path to current folder
+			string pathSaving = folderSaving.Path;
+			// adding file name to path to currentfolder
+			string fileoutSaving = pathSaving + extPathSaving;
+
+			// making "screenshot" of survace
 			SKData skData = surface.Snapshot().Encode();
 
-			IFolder folderSaving = PCLStorage.FileSystem.Current.LocalStorage;
-			string pathSaving = folderSaving.Path;
-			string fileoutSaving = pathSaving + extPathSaving;
-
-			// Plan A)
+			// opening a stream and setting path for writing
 			using (Stream stream1 = File.OpenWrite(fileoutSaving))
 			{
+				// saving "screenshot" we got in steam we opened
 				skData.SaveTo(stream1);
 			}
-
-			//images.Add(fileoutSaving);
-
-			//canvasView.InvalidateSurface();
 		}
 
+		// function for saving image for preview in carouselview
 		private void saveFrameForCarouselView(SkiaSharp.SKSurface surface, string extPathSaving)
 		{
+			// turning the bool for saving as preview off
 			cutForCarouselview = false;
 
+			// turning the bool for saving of
 			saveFrameBool = false;
+			// calling function for usual saving
 			saveFrame(surface, fileName);
-			//images.ForEach(i => Console.Write("{0}\t", i));
+
 			this.BindingContext = this;
-
+			// turning the saving bool off
 			openFrameBool = false;
-			//openFrame(extPath);
-			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
-			string path = folder.Path;
-			string fileout = path + fileName;
-            //temporaryPaths.Clear();
-            //paths.Clear();
 
+			// getting current forder
+			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
+			// getting path to current folder
+			string path = folder.Path;
+			// adding file name to path to currentfolder
+			string fileout = path + fileName;
+
+
+			// getting bitmap from just saved image file
             SKBitmap bitmap = SKBitmap.Decode(fileout);
 
+			// creating info about image and set a less size
 			SKImageInfo imageInfo = new SKImageInfo(Convert.ToInt32(carouselFrameWight), Convert.ToInt32(carouselFrameHeight));
-			Console.WriteLine("!!!!!!!!!!!!!!!!!!");
-			Console.WriteLine(Convert.ToInt32(carouselFrameWight));
-			Console.WriteLine(Convert.ToInt32(carouselFrameHeight));
 
+			//Console.WriteLine("!!!!!!!!!!!!!!!!!!");
+			//Console.WriteLine(Convert.ToInt32(carouselFrameWight));
+			//Console.WriteLine(Convert.ToInt32(carouselFrameHeight));
+
+			// creating resized bitmap from old one, resizing it with info about image we created
 			SKBitmap resized = bitmap.Resize(imageInfo, SKBitmapResizeMethod.Lanczos3);
+			// creating image from bitmap
             SKImage image = SKImage.FromBitmap(resized);
 
-			SKData skData = image.Encode();
+
+			// getting current forder
 			IFolder folderSaving = PCLStorage.FileSystem.Current.LocalStorage;
+			// getting path to current folder
 			string pathSaving = folderSaving.Path;
+			// adding file name to path to currentfolder
 			string fileoutSaving = pathSaving + extPathSaving;
 
-			// Plan A
+			//encoding image before saving
+			SKData skData = image.Encode();
+
+
+			// opening a stream and setting path for writing
 			using (Stream stream1 = File.OpenWrite(fileoutSaving))
 			{
+				// saving "screenshot" we got in steam we opened
 				skData.SaveTo(stream1);
 			}
 
+			// adding just added image to list of images for frames preview in carouselview
 			images.Add(fileoutSaving);
+			// updating shown images in carouselview
 			MainCarouselView.ItemsSource = images.ToArray();
 		}
 
 
-
+		// saving frame using only index of it in video
 		private void saveFrameWithPath(int frameIndex)
         {
+			// setting file path we need
 			filePath = "frame" + frameIndex.ToString() + ".jpg";
+			// turning bool for saving on
 			saveFrameBool = true;
+			// updating canvasview
 			canvasView.InvalidateSurface();
 		}
 
+		// saving frame using only index of it in video but for carouselview preview
 		private void saveFrameForCarouselView(int frameIndex)
 		{
+			// turning bool for saving for preview on
 			cutForCarouselview = true;
 
+			// setting file path we need
 			filePath = "carouselFrame" + frameIndex.ToString() + ".jpg";
+			// turning bool for saving on
 			saveFrameBool = true;
+			// updating canvasview
 			canvasView.InvalidateSurface();
 		}
 
+
+		// function for calling server
 		static async Task<string> apiRequest(int id) // it must return some value but it doesn't
 		{
 			// Call asynchronous network methods in a try/catch block to handle exceptions.
 			try
 			{
+				// calling server and tries to get response
 				string responseBody = await client.GetStringAsync("http://192.168.1.48/image/0");
 				return responseBody;
 			}
+			// catching the error
 			catch (HttpRequestException e)
 			{
 				return null;
 			}
 
 
-
+			//  adresses we use
 			//  http://185.145.127.69/ai-quotes/0
 			//  http://192.168.1.48/ai-quotes/0
 		}
