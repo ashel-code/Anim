@@ -47,7 +47,7 @@ namespace Anim
 
 		void doMagic(object sender, EventArgs e)
 		{
-			
+			Console.WriteLine("magic!! Pfff");
 		}
 	}
 }

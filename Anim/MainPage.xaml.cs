@@ -29,9 +29,9 @@ namespace Anim
 		bool cutForCarouselview = false;
 
 		// tmp:
-		static string extPath = "/outfile.jpg";
+		static string fileName = "/outfile.jpg";
 
-		// net
+		// variables for connection to sever
 		static readonly HttpClient client = new HttpClient();
 
 		// for frames
@@ -43,6 +43,8 @@ namespace Anim
 		double screenHeight;
 		double screenWight;
 
+		// carousel preview
+		// carousel 
 		double carouselToScreenKoff;
 		double carouselFrameHeight;
 		double carouselFrameWight;
@@ -51,106 +53,118 @@ namespace Anim
 		{
 			InitializeComponent();
 
+			// get screen resolusion
 			screenHeight = DeviceDisplay.MainDisplayInfo.Height;
 			screenWight = DeviceDisplay.MainDisplayInfo.Width;
 
+			// get sizes of carouselview to format image in future
 			carouselFrameHeight = (screenHeight / 6.25) * 1.25 / 2; 
 			carouselFrameWight = (screenWight / 6.25) * 1.25 / 2;
 
 			this.BindingContext = this;
 
+			// getting current active frame of carouselview
 			currentFrame = MainCarouselView.Position;
 
+			// getting path to deffault image:
+			// getting current folder
 			folder = PCLStorage.FileSystem.Current.LocalStorage;
+			// getting path to current folder
 			path = folder.Path;
-			filePath = path + extPath;
+			// adding filename to path to current folder
+			filePath = path + fileName;
 			
-			
-
+			// setting deffault path in pathes to images for carouselview 
 			images = new List<string>
 			{
 				filePath
 			};
+
+			//update carouselview
 			this.MainCarouselView.ItemsSource = images;
 
 			updateFrameBool = true;
-			// updateFrameImage();
-			//Thread thread = new Thread(updateFrameImage);
-
-
 		}
 
-
-		async private void updateFrameImage()
-        {
-			new Thread(() =>
-			{
-			    Thread.CurrentThread.IsBackground = true;
-			    while (updateFrameBool)
-			    {
-				    Thread.Sleep(1000);
-					//saveFrameWithPath("carouselview.jpg", true);
-				    MainCarouselView.ItemsSource = images.ToArray();
-			    }
-		    }).Start();
-        }
 
 
 		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
-
+			// getting screen resolution but for canvasview
             double height = DeviceDisplay.MainDisplayInfo.Height;
             double wight = DeviceDisplay.MainDisplayInfo.Width;
 
+			// setting height of canvasview
             canvasView.HeightRequest = height;
 
-            SKSurface surface = e.Surface;
-            SKCanvas canvas = surface.Canvas;
+			// intilizing surface
+			SKSurface surface = e.Surface;
+			// intilizing canvas
+			SKCanvas canvas = surface.Canvas;
 
 
-
+			// clearing canvas:
+			// checking bool
             if (clearBool == true)
             {
+				// clearing and filling canvas white
                 canvas.Clear(SKColors.White);
+				// tunting the bool off
                 clearBool = false;
+				// clearing temp paths
                 temporaryPaths.Clear();
+				// clearing main paths
                 paths.Clear();
                 return;
             }
 
+			// saving image from canvas:
+			// checking bool
             if (saveFrameBool == true)
             {
+				// turning the bool off
                 saveFrameBool = false;
+				// checking is saving for preview in carouselview
                 if (cutForCarouselview)
                 {
-                    saveFrameForCarouselView(surface, extPath);
+					// calling function for saving for carousellview with current surface and file name
+                    saveFrameForCarouselView(surface, fileName);
                 }
+				// if saving isn't for preview:
                 else
                 {
-                    saveFrame(surface, extPath);
+					// calling function for usual saving with current surface and file name
+                    saveFrame(surface, fileName);
                 }
                 //images.ForEach(i => Console.Write("{0}\t", i));
+
                 BindingContext = this;
                 return;
             }
 
+			// opening image
             if (openFrameBool == true)
             {
+				// turning the bool off
                 openFrameBool = false;
-                //openFrame(extPath);
+				// getting current folder
                 IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
+				// getting path to current folder
                 string path = folder.Path;
-                string fileout = path + extPath;
-                //temporaryPaths.Clear();
-                //paths.Clear();
-
+				// adding file name to current folder
+                string fileout = path + fileName;
+                
+				// creating bitmap from image file
                 SKBitmap bitmap = SKBitmap.Decode(fileout);
 
-                //canvas.DrawBitmap(bitmap, Convert.ToInt32(height), Convert.ToInt32(wight));
+                // placing bitmap oon the canvas
                 canvas.DrawBitmap(bitmap, 0, 0);
+				// updating canvas
                 canvas.Restore();
+				// updating canvasview
                 canvasView.InvalidateSurface();
             }
+
             SKPaint touchPathStroke = new SKPaint
             {
                 IsAntialias = true,

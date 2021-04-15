@@ -48,7 +48,7 @@ namespace Anim
 			cutForCarouselview = false;
 
 			saveFrameBool = false;
-			saveFrame(surface, extPath);
+			saveFrame(surface, fileName);
 			//images.ForEach(i => Console.Write("{0}\t", i));
 			this.BindingContext = this;
 
@@ -56,7 +56,7 @@ namespace Anim
 			//openFrame(extPath);
 			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
 			string path = folder.Path;
-			string fileout = path + extPath;
+			string fileout = path + fileName;
             //temporaryPaths.Clear();
             //paths.Clear();
 
