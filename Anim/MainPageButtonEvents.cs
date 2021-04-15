@@ -19,12 +19,12 @@ namespace Anim
 		private void saveButtonClicked(object sender, EventArgs e)
 		{
 			// calling saving function with index of frame
-			saveFrameWithPath(currentFrame);
+			saveFrameWithIndex(currentFrame);
 		}
 
 		private void AddFrame(object sender, EventArgs e)
         {
-
+			AddFrame();
         }
 
 		private void DeleteCurrentFrame(object sender, EventArgs e)

@@ -16,6 +16,11 @@ namespace Anim
 {
 	public partial class MainPage : ContentPage
 	{
+		private void updateCarouselView()
+        {
+			MainCarouselView.ItemsSource = images.ToArray();
+		}
+
 		// function fur usual saving image from canvas.
 		private void saveFrame(SkiaSharp.SKSurface surface, string extPathSaving)
 		{
@@ -97,7 +102,7 @@ namespace Anim
 			// adding just added image to list of images for frames preview in carouselview
 			images.Add(fileoutSaving);
 			// updating shown images in carouselview
-			MainCarouselView.ItemsSource = images.ToArray();
+			updateCarouselView();
 		}
 
 

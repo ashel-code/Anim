@@ -22,6 +22,8 @@ namespace Anim
 			// initializing component
 			InitializeComponent();
 
+			amountOfFrames = 1;
+
 			// get screen resolusion
 			screenHeight = DeviceDisplay.MainDisplayInfo.Height;
 			screenWight = DeviceDisplay.MainDisplayInfo.Width;
@@ -48,11 +50,20 @@ namespace Anim
 			{
 				filePath
 			};
-
-			//update carouselview
-			this.MainCarouselView.ItemsSource = images;
+			
 
 			updateFrameBool = true;
+
+			indexOfImages = new List<int>
+			{
+				0
+			};
+
+			saveFrameWithIndex(0);
+			saveFrameForCarouselView(0);
+
+			//update carouselview
+			updateCarouselView();
 		}
 
 

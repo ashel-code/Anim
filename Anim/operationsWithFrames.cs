@@ -16,21 +16,15 @@ namespace Anim
 {
 	public partial class MainPage : ContentPage
 	{
-		private void addFrame(/*selectedFrame can be there when the frames will be sent from server*/)
+		private void AddFrame(/*selectedFrame can be there when the frames will be sent from server*/)
         {
 			amountOfFrames++;
 
 			// renaming
-			foreach (int i in indexOfImages)
-            {
-				string oldFileName = frameFileName + i.ToString() + fileExtention;
-				string newFileName = frameFileName + (1 + i).ToString() + fileExtention;
-				File.Move(oldFileName, newFileName);
-			}
-
+			
 			int selectedFrame = MainCarouselView.Position;
 
-			for (int i = selectedFrame; i < amountOfFrames; i++)
+			for (int i = (selectedFrame + 1); i < (amountOfFrames - 1); i++)
             {
 				string oldFileName = frameFileName + i.ToString() + fileExtention;
 				string newFileName = frameFileName + (1 + i).ToString() + fileExtention;
@@ -41,7 +35,9 @@ namespace Anim
 
 
 			saveFrameWithIndex(selectedFrame + 1);
-			
+			saveFrameForCarouselView(selectedFrame + 1);
+
+			updateCarouselView();
         }
 	}
 }
