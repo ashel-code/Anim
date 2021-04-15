@@ -17,40 +17,9 @@ namespace Anim
 {
 	public partial class MainPage : ContentPage
 	{
-		// paths for canvas
-		private readonly Dictionary<long, SKPath> temporaryPaths = new Dictionary<long, SKPath>();
-		private readonly List<SKPath> paths = new List<SKPath>();
-
-		// bools for buttons
-		bool clearBool = false;
-		bool saveFrameBool = false;
-		bool openFrameBool = false;
-		bool updateFrameBool = false;
-		bool cutForCarouselview = false;
-
-		// tmp:
-		static string fileName = "/outfile.jpg";
-
-		// variables for connection to sever
-		static readonly HttpClient client = new HttpClient();
-
-		// for frames
-		IFolder folder;
-		string path;
-		string filePath;
-		List<string> images;
-		int currentFrame;
-		double screenHeight;
-		double screenWight;
-
-		// carousel preview
-		// carousel 
-		double carouselToScreenKoff;
-		double carouselFrameHeight;
-		double carouselFrameWight;
-
 		public MainPage()
 		{
+			// initializing component
 			InitializeComponent();
 
 			// get screen resolusion
@@ -60,7 +29,7 @@ namespace Anim
 			// get sizes of carouselview to format image in future
 			carouselFrameHeight = (screenHeight / 6.25) * 1.25 / 2; 
 			carouselFrameWight = (screenWight / 6.25) * 1.25 / 2;
-
+			
 			this.BindingContext = this;
 
 			// getting current active frame of carouselview

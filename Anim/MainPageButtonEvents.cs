@@ -18,25 +18,41 @@ namespace Anim
 	{
 		private void saveButtonClicked(object sender, EventArgs e)
 		{
+			// calling saving function with index of frame
 			saveFrameWithPath(currentFrame);
 		}
 
+		private void AddFrame(object sender, EventArgs e)
+        {
+
+        }
+
+		private void DeleteCurrentFrame(object sender, EventArgs e)
+        {
+
+        }
 
 		private void openButtonClicked(object sender, EventArgs e)
 		{
+			// turning the opening bool on
 			openFrameBool = true;
+			// updating canvasview
 			canvasView.InvalidateSurface();
 		}
 
 		private void clearButtonClicked(object sender, EventArgs e)
 		{
+			// turning the clearing bool on
 			clearBool = true;
+			// updating canvasview
 			canvasView.InvalidateSurface();
 		}
 
 		private void eraserButtonClicked(object sender, EventArgs e)
 		{
+			// calling saving function with index of frame for preview
 			saveFrameForCarouselView(currentFrame);
+			// incrementing the index of current frame
 			currentFrame++;
 		}
 
@@ -47,6 +63,7 @@ namespace Anim
 
 		void doMagic(object sender, EventArgs e)
 		{
+			// test output for magix
 			Console.WriteLine("magic!! Pfff");
 		}
 	}

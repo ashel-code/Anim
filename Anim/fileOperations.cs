@@ -102,10 +102,10 @@ namespace Anim
 
 
 		// saving frame using only index of it in video
-		private void saveFrameWithPath(int frameIndex)
+		private void saveFrameWithIndex(int frameIndex)
         {
 			// setting file path we need
-			filePath = "frame" + frameIndex.ToString() + ".jpg";
+			filePath = frameFileName + frameIndex.ToString() + fileExtention;
 			// turning bool for saving on
 			saveFrameBool = true;
 			// updating canvasview
@@ -119,7 +119,7 @@ namespace Anim
 			cutForCarouselview = true;
 
 			// setting file path we need
-			filePath = "carouselFrame" + frameIndex.ToString() + ".jpg";
+			filePath = carouselFileName + frameIndex.ToString() + fileExtention;
 			// turning bool for saving on
 			saveFrameBool = true;
 			// updating canvasview
