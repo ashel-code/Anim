@@ -39,16 +39,14 @@ namespace Anim
 
 			// getting path to deffault image:
 			// getting current folder
-			folder = PCLStorage.FileSystem.Current.LocalStorage;
-			// getting path to current folder
-			path = folder.Path;
-			// adding filename to path to current folder
-			filePath = path + fileName;
+			//string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			//string filePath = Path.Combine(path, fileName);
+			//filePath = path + fileName;
 			
 			// setting deffault path in pathes to images for carouselview 
 			images = new List<string>
 			{
-				filePath
+				
 			};
 			
 
@@ -56,8 +54,11 @@ namespace Anim
 
 			indexOfImages = new List<int>
 			{
-				0
+				
 			};
+
+			
+
 
 			saveFrameWithIndex(0);
 			saveFrameForCarouselView(0);
@@ -125,14 +126,9 @@ namespace Anim
 			// opening image
             if (openFrameBool == true)
             {
-				// turning the bool off
-                openFrameBool = false;
-				// getting current folder
-                IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
-				// getting path to current folder
-                string path = folder.Path;
-				// adding file name to current folder
-                string fileout = path + fileName;
+				string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+				string fileout = Path.Combine(path, fileName);
+				
                 
 				// creating bitmap from image file
                 SKBitmap bitmap = SKBitmap.Decode(fileout);

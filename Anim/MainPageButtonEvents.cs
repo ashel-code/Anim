@@ -37,7 +37,7 @@ namespace Anim
 			// turning the opening bool on
 			openFrameBool = true;
 			// updating canvasview
-			canvasView.InvalidateSurface();
+			//canvasView.InvalidateSurface();
 		}
 
 		private void clearButtonClicked(object sender, EventArgs e)

@@ -39,7 +39,7 @@ namespace Anim
 		bool cutForCarouselview = false;
 
 		// tmp:
-		static string fileName = "/outfile.jpg";
+		static string fileName;
 
 		// variables for connection to sever
 		static readonly HttpClient client = new HttpClient();
@@ -53,6 +53,7 @@ namespace Anim
 		string filePath;
 		// for list of images in carouselview
 		List<string> images;
+
 		List<int> indexOfImages;
 		int amountOfFrames;
 		// for index of current frame

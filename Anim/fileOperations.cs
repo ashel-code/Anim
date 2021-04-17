@@ -16,20 +16,39 @@ namespace Anim
 {
 	public partial class MainPage : ContentPage
 	{
+		private string formatNumber(int number)
+        {
+			if (number < 1000000)
+            {
+				int amountOfSimbols = number.ToString().Length;
+				string result = "";
+
+				for (int i = 0; i < (6 - amountOfSimbols); i++)
+                {
+					result += "0";
+                }
+				result += number.ToString();
+				return result;
+            }
+            else
+            {
+				return null;
+            }
+        }
+
+
 		private void updateCarouselView()
         {
+			images.Sort();
 			MainCarouselView.ItemsSource = images.ToArray();
 		}
 
 		// function fur usual saving image from canvas.
 		private void saveFrame(SkiaSharp.SKSurface surface, string extPathSaving)
 		{
-			// getting current forder
-			IFolder folderSaving = PCLStorage.FileSystem.Current.LocalStorage;
-			// getting path to current folder
-			string pathSaving = folderSaving.Path;
-			// adding file name to path to currentfolder
-			string fileoutSaving = pathSaving + extPathSaving;
+			string pathSaving = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			string fileoutSaving = Path.Combine(pathSaving, extPathSaving);
+
 
 			// making "screenshot" of survace
 			SKData skData = surface.Snapshot().Encode();
@@ -57,16 +76,11 @@ namespace Anim
 			// turning the saving bool off
 			openFrameBool = false;
 
-			// getting current forder
-			IFolder folder = PCLStorage.FileSystem.Current.LocalStorage;
-			// getting path to current folder
-			string path = folder.Path;
-			// adding file name to path to currentfolder
-			string fileout = path + fileName;
-
+			string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			string fileout = Path.Combine(path, fileName);
 
 			// getting bitmap from just saved image file
-            SKBitmap bitmap = SKBitmap.Decode(fileout);
+			SKBitmap bitmap = SKBitmap.Decode(fileout);
 
 			// creating info about image and set a less size
 			SKImageInfo imageInfo = new SKImageInfo(Convert.ToInt32(carouselFrameWight), Convert.ToInt32(carouselFrameHeight));
@@ -81,12 +95,10 @@ namespace Anim
             SKImage image = SKImage.FromBitmap(resized);
 
 
-			// getting current forder
-			IFolder folderSaving = PCLStorage.FileSystem.Current.LocalStorage;
-			// getting path to current folder
-			string pathSaving = folderSaving.Path;
-			// adding file name to path to currentfolder
-			string fileoutSaving = pathSaving + extPathSaving;
+			string pathSaving = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			string fileoutSaving = Path.Combine(path, extPathSaving);
+
+
 
 			//encoding image before saving
 			SKData skData = image.Encode();
@@ -110,10 +122,11 @@ namespace Anim
 		private void saveFrameWithIndex(int frameIndex)
         {
 			// setting file path we need
-			filePath = frameFileName + frameIndex.ToString() + fileExtention;
+			fileName = frameFileName + formatNumber(frameIndex) + fileExtention;
 			// turning bool for saving on
 			saveFrameBool = true;
 			// updating canvasview
+			
 			canvasView.InvalidateSurface();
 		}
 
@@ -124,7 +137,7 @@ namespace Anim
 			cutForCarouselview = true;
 
 			// setting file path we need
-			filePath = carouselFileName + frameIndex.ToString() + fileExtention;
+			fileName = carouselFileName + formatNumber(frameIndex) + fileExtention;
 			// turning bool for saving on
 			saveFrameBool = true;
 			// updating canvasview

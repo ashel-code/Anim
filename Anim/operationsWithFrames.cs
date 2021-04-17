@@ -12,6 +12,15 @@ using System.Net.Http;
 using PCLStorage;
 using System.IO;
 
+/*
+ 
+string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+string filename = Path.Combine(path, "myfile.txt");
+
+ */
+
+
+
 namespace Anim
 {
 	public partial class MainPage : ContentPage
@@ -26,12 +35,18 @@ namespace Anim
 
 			for (int i = (selectedFrame + 1); i < (amountOfFrames - 1); i++)
             {
-				string oldFileName = frameFileName + i.ToString() + fileExtention;
-				string newFileName = frameFileName + (1 + i).ToString() + fileExtention;
+				string pathSaving = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+
+				Console.WriteLine(pathSaving);
+
+				string oldFileName = Path.Combine(pathSaving, frameFileName + formatNumber(i) + fileExtention);
+				string newFileName = Path.Combine(pathSaving, frameFileName + formatNumber(i + 1) + fileExtention);
+				Console.WriteLine(oldFileName);
+				Console.WriteLine(newFileName);
 				File.Move(oldFileName, newFileName);
 			}
 
-			indexOfImages.Add(amountOfFrames);
+			indexOfImages.Add(amountOfFrames - 1);
 
 
 			saveFrameWithIndex(selectedFrame + 1);
