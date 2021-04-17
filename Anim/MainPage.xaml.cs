@@ -13,6 +13,8 @@ using PCLStorage;
 using System.IO;
 using System.Threading;
 
+
+
 namespace Anim
 {
 	public partial class MainPage : ContentPage
@@ -71,13 +73,15 @@ namespace Anim
 
 		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
+
+			Console.WriteLine("±±±±±±±±±±±1");
 			// getting screen resolution but for canvasview
             double height = DeviceDisplay.MainDisplayInfo.Height;
             double wight = DeviceDisplay.MainDisplayInfo.Width;
 
 			// setting height of canvasview
             canvasView.HeightRequest = height;
-
+			//	e	{SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs}	SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs
 			// intilizing surface
 			SKSurface surface = e.Surface;
 			// intilizing canvas
@@ -139,7 +143,8 @@ namespace Anim
                 canvas.Restore();
 				// updating canvasview
                 canvasView.InvalidateSurface();
-            }
+				Console.WriteLine("±±±±±±±±±±±1");
+			}
 
             SKPaint touchPathStroke = new SKPaint
             {

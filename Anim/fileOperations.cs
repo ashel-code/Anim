@@ -126,8 +126,17 @@ namespace Anim
 			// turning bool for saving on
 			saveFrameBool = true;
 			// updating canvasview
-			
+
+			Console.WriteLine("±±±±±±±±±±±±start1");
+
+			// canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
+			// 	e	{SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs}	SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs
+			// canvasView_PaintSurface(this, )
+			canvasView.PaintSurface += canvasView_PaintSurface;
 			canvasView.InvalidateSurface();
+
+			Console.WriteLine("±±±±±±±±±±±±end1");
+
 		}
 
 		// saving frame using only index of it in video but for carouselview preview
@@ -142,6 +151,8 @@ namespace Anim
 			saveFrameBool = true;
 			// updating canvasview
 			canvasView.InvalidateSurface();
+
+
 		}
 
 
