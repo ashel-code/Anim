@@ -28,6 +28,7 @@ namespace Anim.iOS
 #endif
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
+            //ColorPickerEffects.Init();
 
             return base.FinishedLaunching(app, options);
         }

@@ -15,7 +15,7 @@ using System.Threading;
 
 namespace Anim
 {
-	public partial class MainPage : ContentPage
+	public partial class MainPage: ContentPage
 	{
 		// paths for canvas
 		private readonly Dictionary<long, SKPath> temporaryPaths = new Dictionary<long, SKPath>();

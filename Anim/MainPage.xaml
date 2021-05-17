@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Anim.MainPage"
-             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms">
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:cp="clr-namespace:Amporis.Xamarin.Forms.ColorPicker;assembly=Amporis.Xamarin.Forms.ColorPicker" xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker">
     <StackLayout>
-        
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -16,24 +16,27 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="1.25*"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
 
+            <colorpicker:ColorWheel Grid.Row="5"
+                                    Grid.Column="2"/>
+
             <Button Grid.Row="0"
-                    Grid.Column="0"
+                    Grid.Column="2"
                     Text="Eraser"
                     Clicked="eraserButtonClicked"
                     IsVisible="true"
                     BackgroundColor="#2196F3"
                     TextColor="#FFFFFF"/>
-            
-            <Button Grid.Row="2"
+
+            <!--<Button Grid.Row="2"
                     Grid.Column="0"
                     Text="Pencil"
                     Clicked="pencilButtonClicked"
                     IsVisible="true"
                     BackgroundColor="#2196F3"
-                    TextColor="#FFFFFF"/>
+                    TextColor="#FFFFFF"/>-->
 
             <skia:SKCanvasView Grid.Row="0"
                                Grid.Column="1"
@@ -44,28 +47,28 @@
                                Touch="OnTouch"/>
 
             <Button Grid.Row="0"
-                    Grid.Column="2"
+                    Grid.Column="0"
                     Text="save"
                     Clicked = "saveButtonClicked"
                     IsVisible="true"
                     BackgroundColor="#2196F3"
                     TextColor="#FFFFFF"/>
             <Button Grid.Row="1"
-                    Grid.Column="2"
+                    Grid.Column="0"
                     Text="open"
                     Clicked = "openButtonClicked"
                     IsVisible="true"
                     BackgroundColor="#2196F3"
                     TextColor="#FFFFFF"/>
-            <Button Grid.Row="2"
+            <Button Grid.Row="1"
                     Grid.Column="2"
                     Text="clear"
                     Clicked="clearButtonClicked"
                     IsVisible="true"
                     BackgroundColor="#2196F3"
                     TextColor="#FFFFFF"/>
-            <Button Grid.Row="3"
-                    Grid.Column="2"
+            <Button Grid.Row="2"
+                    Grid.Column="0"
                     Text="magic"
                     Clicked="doMagic"
                     IsVisible="true"
@@ -86,15 +89,15 @@
                 </CarouselView.ItemTemplate>
             </CarouselView>
 
-            <Button Grid.Row="6"
-                    Grid.Column="2"
+            <Button Grid.Row="4"
+                    Grid.Column="0"
                     Text="new frame"
                     Clicked="AddFrame"
                     IsVisible="true"
                     BackgroundColor="#2196F3"
                     TextColor="#FFFFFF"
                     />
-            <Button Grid.Row="6"
+            <Button Grid.Row="3"
                     Grid.Column="0"
                     Text="delete frame"
                     Clicked="DeleteCurrentFrame"
@@ -102,6 +105,8 @@
                     BackgroundColor="#2196F3"
                     TextColor="#FFFFFF"
                     />
-        </Grid>    
+        </Grid>
+
     </StackLayout>
+
 </ContentPage>
