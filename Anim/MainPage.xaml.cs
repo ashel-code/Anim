@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using ColorPicker;
+using ColorPicker.Effects;
 
 
 
@@ -67,7 +67,7 @@ namespace Anim
             //update carouselview
             updateCarouselView();
 
-            //Color SelectedColorVariable = ColorPicker.SelectedColor();
+            Color SelectedColorVariable = ColorPickerEffects.SelectedColor();
 
             Red = 0;
             Green = 0;
@@ -76,13 +76,6 @@ namespace Anim
         }
 
         
-		/*int red = (int)(PenColor.R * 255);
-		int green = (int)(PenColor.G * 255);
-		int blue = (int)(PenColor.B * 255);
-		int alpha = (int)(PenColor.A * 255);
-		string hex = String.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", red, green, blue, alpha);
-		//public string hex = Color.ToHex(PenColor);
-		public static bool IfParsed = SKColor.TryParse(Color.ToHex(PenColor), out SKColor SKPenColor);*/
 
         private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
