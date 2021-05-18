@@ -82,7 +82,8 @@ namespace Anim
             // getting screen resolution but for canvasview
             double height = DeviceDisplay.MainDisplayInfo.Height;
             double wight = DeviceDisplay.MainDisplayInfo.Width;
-
+            saveFrameWithIndex(currentFrame);
+            openFrameBool = true;
             Color SelectedColorVariable = ColorWeed.SelectedColor;
             Red = SelectedColorVariable.R;
             Green = SelectedColorVariable.G;
