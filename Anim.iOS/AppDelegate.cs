@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using ColorPicker.Effects;
+using ColorPicker.iOS;
 using Foundation;
 using UIKit;
 
