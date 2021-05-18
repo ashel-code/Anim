@@ -1,124 +1,135 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-using SkiaSharp;
+﻿using SkiaSharp;
 using SkiaSharp.Views.Forms;
-using Xamarin.Essentials;
-using System.Net.Http;
-using PCLStorage;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Threading;
+using Xamarin.Essentials;
+using Xamarin.Forms;
+//using ColorPicker;
 
 
 
 namespace Anim
 {
-	public partial class MainPage : ContentPage
-	{
-		public MainPage()
-		{
-			// initializing component
-			InitializeComponent();
+    public partial class MainPage : ContentPage
+    {
+        public double Red = 0;
+        public double Green = 0;
+        public double Blue = 0;
 
-			amountOfFrames = 1;
+        public int LineWidth = 5;
+        public MainPage()
+        {
+            // initializing component
+            InitializeComponent();
 
-			// get screen resolusion
-			screenHeight = DeviceDisplay.MainDisplayInfo.Height;
-			screenWight = DeviceDisplay.MainDisplayInfo.Width;
+            amountOfFrames = 1;
 
-			// get sizes of carouselview to format image in future
-			carouselFrameHeight = (screenHeight / 6.25) * 1.25 / 2; 
-			carouselFrameWight = (screenWight / 6.25) * 1.25 / 2;
-			
-			this.BindingContext = this;
+            // get screen resolusion
+            screenHeight = DeviceDisplay.MainDisplayInfo.Height;
+            screenWight = DeviceDisplay.MainDisplayInfo.Width;
 
-			// getting current active frame of carouselview
-			currentFrame = MainCarouselView.Position;
+            // get sizes of carouselview to format image in future
+            carouselFrameHeight = (screenHeight / 6.25) * 1.25 / 2;
+            carouselFrameWight = (screenWight / 6.25) * 1.25 / 2;
 
-			// getting path to deffault image:
-			// getting current folder
-			//string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-			//string filePath = Path.Combine(path, fileName);
-			//filePath = path + fileName;
-			
-			// setting deffault path in pathes to images for carouselview 
-			images = new List<string>
-			{
-				
-			};
-			
+            this.BindingContext = this;
 
-			updateFrameBool = true;
+            // getting current active frame of carouselview
+            currentFrame = MainCarouselView.Position;
 
-			indexOfImages = new List<int>
-			{
-				
-			};
+            // getting path to deffault image:
+            // getting current folder
+            //string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            //string filePath = Path.Combine(path, fileName);
+            //filePath = path + fileName;
 
-			
+            // setting deffault path in pathes to images for carouselview 
+            images = new List<string>
+            {
+
+            };
 
 
-			saveFrameWithIndex(0);
-			saveFrameForCarouselView(0);
+            updateFrameBool = true;
 
-			//update carouselview
-			updateCarouselView();
-		}
+            indexOfImages = new List<int>
+            {
+
+            };
 
 
 
-		private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
+
+            saveFrameWithIndex(0);
+            saveFrameForCarouselView(0);
+
+            //update carouselview
+            updateCarouselView();
+            Color SelectedColorVariable = ColorWeed.SelectedColor;
+            Red = SelectedColorVariable.R;
+            Green = SelectedColorVariable.G;
+            Blue = SelectedColorVariable.B;
+            ColorWeed.SelectedColor = Color.FromRgb(Red, Green, Blue);
+        }
+
+        
+
+        private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
 
-			Console.WriteLine("±±±±±±±±±±±1");
-			// getting screen resolution but for canvasview
+            Console.WriteLine("±±±±±±±±±±±1");
+            // getting screen resolution but for canvasview
             double height = DeviceDisplay.MainDisplayInfo.Height;
             double wight = DeviceDisplay.MainDisplayInfo.Width;
+            saveFrameWithIndex(currentFrame);
+            openFrameBool = true;
+            Color SelectedColorVariable = ColorWeed.SelectedColor;
+            Red = SelectedColorVariable.R;
+            Green = SelectedColorVariable.G;
+            Blue = SelectedColorVariable.B;
+            ColorWeed.SelectedColor = Color.FromRgb(Red, Green, Blue);
 
-			// setting height of canvasview
+            // setting height of canvasview
             canvasView.HeightRequest = height;
-			//	e	{SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs}	SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs
-			// intilizing surface
-			SKSurface surface = e.Surface;
-			// intilizing canvas
-			SKCanvas canvas = surface.Canvas;
+            //	e	{SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs}	SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs
+            // intilizing surface
+            SKSurface surface = e.Surface;
+            // intilizing canvas
+            SKCanvas canvas = surface.Canvas;
 
 
-			// clearing canvas:
-			// checking bool
+            // clearing canvas:
+            // checking bool
             if (clearBool == true)
             {
-				// clearing and filling canvas white
+                // clearing and filling canvas white
                 canvas.Clear(SKColors.White);
-				// tunting the bool off
+                // tunting the bool off
                 clearBool = false;
-				// clearing temp paths
+                // clearing temp paths
                 temporaryPaths.Clear();
-				// clearing main paths
+                // clearing main paths
                 paths.Clear();
                 return;
             }
 
-			// saving image from canvas:
-			// checking bool
+            // saving image from canvas:
+            // checking bool
             if (saveFrameBool == true)
             {
-				// turning the bool off
+                // turning the bool off
                 saveFrameBool = false;
-				// checking is saving for preview in carouselview
+                // checking is saving for preview in carouselview
                 if (cutForCarouselview)
                 {
-					// calling function for saving for carousellview with current surface and file name
+                    // calling function for saving for carousellview with current surface and file name
                     saveFrameForCarouselView(surface, fileName);
                 }
-				// if saving isn't for preview:
+                // if saving isn't for preview:
                 else
                 {
-					// calling function for usual saving with current surface and file name
+                    // calling function for usual saving with current surface and file name
                     saveFrame(surface, fileName);
                 }
                 //images.ForEach(i => Console.Write("{0}\t", i));
@@ -127,78 +138,93 @@ namespace Anim
                 return;
             }
 
-			// opening image
+            // opening image
             if (openFrameBool == true)
             {
-				string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-				string fileout = Path.Combine(path, fileName);
-				
-                
-				// creating bitmap from image file
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                string fileout = Path.Combine(path, fileName);
+
+
+                // creating bitmap from image file
                 SKBitmap bitmap = SKBitmap.Decode(fileout);
 
                 // placing bitmap oon the canvas
                 canvas.DrawBitmap(bitmap, 0, 0);
-				// updating canvas
+                // updating canvas
                 canvas.Restore();
-				// updating canvasview
+                // updating canvasview
                 canvasView.InvalidateSurface();
-				Console.WriteLine("±±±±±±±±±±±1");
-			}
+                Console.WriteLine("±±±±±±±±±±±1");
+            }
+
 
             SKPaint touchPathStroke = new SKPaint
             {
                 IsAntialias = true,
                 Style = SKPaintStyle.Stroke,
-                Color = SKColors.Purple,
-                StrokeWidth = 5
+                //Color = SKColors.Purple,
+                Color = Color.FromRgb(Red, Green, Blue).ToSKColor(),
+                StrokeWidth = LineWidth
             };
 
-			// draw the paths
-			foreach (KeyValuePair<long, SKPath> touchPath in temporaryPaths)
-			{
-				canvas.DrawPath(touchPath.Value, touchPathStroke);
-			}
-			foreach (SKPath touchPath in paths)
-			{
-				canvas.DrawPath(touchPath, touchPathStroke);
-			}
+            // draw the paths
+            foreach (KeyValuePair<long, SKPath> touchPath in temporaryPaths)
+            {
+                canvas.DrawPath(touchPath.Value, touchPathStroke);
+            }
+            foreach (SKPath touchPath in paths)
+            {
+                canvas.DrawPath(touchPath, touchPathStroke);
+            }
 
-		}
+        }
+
+        public void eraserButtonClicked(object sender, EventArgs e)
+        {
+            // calling saving function with index of frame for preview
+            //saveFrameForCarouselView(currentFrame);
+            // incrementing the index of current frame
+            //currentFrame++;
+            Red = 1;
+            Green = 1;
+            Blue = 1;
+            ColorWeed.SelectedColor = Color.FromRgb(Red, Green, Blue);
+            LineWidth = 20;
+        }
 
         private void OnTouch(object sender, SKTouchEventArgs e)
-		{
-			switch (e.ActionType)
-			{
-				case SKTouchAction.Pressed:
+        {
+            switch (e.ActionType)
+            {
+                case SKTouchAction.Pressed:
                     // start of a stroke
                     SKPath p = new SKPath();
-					p.MoveTo(e.Location);
-					temporaryPaths[e.Id] = p;
-					break;
-				case SKTouchAction.Moved:
-					// the stroke, while pressed
-					if (e.InContact && temporaryPaths.TryGetValue(e.Id, out SKPath moving))
-						moving.LineTo(e.Location);
-					break;
-				case SKTouchAction.Released:
-					// end of a stroke
-					if (temporaryPaths.TryGetValue(e.Id, out SKPath releasing))
-						paths.Add(releasing);
-					temporaryPaths.Remove(e.Id);
-					break;
-				case SKTouchAction.Cancelled:
-					// we don't want that stroke
-					temporaryPaths.Remove(e.Id);
-					break;
-			}
+                    p.MoveTo(e.Location);
+                    temporaryPaths[e.Id] = p;
+                    break;
+                case SKTouchAction.Moved:
+                    // the stroke, while pressed
+                    if (e.InContact && temporaryPaths.TryGetValue(e.Id, out SKPath moving))
+                        moving.LineTo(e.Location);
+                    break;
+                case SKTouchAction.Released:
+                    // end of a stroke
+                    if (temporaryPaths.TryGetValue(e.Id, out SKPath releasing))
+                        paths.Add(releasing);
+                    temporaryPaths.Remove(e.Id);
+                    break;
+                case SKTouchAction.Cancelled:
+                    // we don't want that stroke
+                    temporaryPaths.Remove(e.Id);
+                    break;
+            }
 
-			// update the UI
-			if (e.InContact)
-				((SKCanvasView)sender).InvalidateSurface();
+            // update the UI
+            if (e.InContact)
+                ((SKCanvasView)sender).InvalidateSurface();
 
-			// we have handled these events
-			e.Handled = true;
-		}
-	}
+            // we have handled these events
+            e.Handled = true;
+        }
+    }
 }

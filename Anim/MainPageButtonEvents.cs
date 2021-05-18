@@ -48,13 +48,7 @@ namespace Anim
 			canvasView.InvalidateSurface();
 		}
 
-		private void eraserButtonClicked(object sender, EventArgs e)
-		{
-			// calling saving function with index of frame for preview
-			saveFrameForCarouselView(currentFrame);
-			// incrementing the index of current frame
-			currentFrame++;
-		}
+
 
 		private void pencilButtonClicked(object sender, EventArgs e)
 		{
