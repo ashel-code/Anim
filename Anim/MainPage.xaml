@@ -20,7 +20,8 @@
             </Grid.RowDefinitions>
 
             <colorpicker:ColorWheel Grid.Row="5"
-                                    Grid.Column="2"/>
+                                    Grid.Column="2"
+                                    x:Name="ColorWeed"/>
 
             <Button Grid.Row="0"
                     Grid.Column="2"

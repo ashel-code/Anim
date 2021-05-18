@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using ColorPicker.Effects;
+//using ColorPicker;
 
 
 
@@ -13,9 +13,9 @@ namespace Anim
 {
     public partial class MainPage : ContentPage
     {
-        public int Red = 0;
-        public int Green = 0;
-        public int Blue = 0;
+        public double Red = 0;
+        public double Green = 0;
+        public double Blue = 0;
 
         public int LineWidth = 5;
         public MainPage()
@@ -66,13 +66,11 @@ namespace Anim
 
             //update carouselview
             updateCarouselView();
-
-            Color SelectedColorVariable = ColorPickerEffects.SelectedColor();
-
-            Red = 0;
-            Green = 0;
-            Blue = 0;
-
+            Color SelectedColorVariable = ColorWeed.SelectedColor;
+            Red = SelectedColorVariable.R;
+            Green = SelectedColorVariable.G;
+            Blue = SelectedColorVariable.B;
+            ColorWeed.SelectedColor = Color.FromRgb(Red, Green, Blue);
         }
 
         
@@ -84,6 +82,12 @@ namespace Anim
             // getting screen resolution but for canvasview
             double height = DeviceDisplay.MainDisplayInfo.Height;
             double wight = DeviceDisplay.MainDisplayInfo.Width;
+
+            Color SelectedColorVariable = ColorWeed.SelectedColor;
+            Red = SelectedColorVariable.R;
+            Green = SelectedColorVariable.G;
+            Blue = SelectedColorVariable.B;
+            ColorWeed.SelectedColor = Color.FromRgb(Red, Green, Blue);
 
             // setting height of canvasview
             canvasView.HeightRequest = height;
@@ -180,9 +184,10 @@ namespace Anim
             //saveFrameForCarouselView(currentFrame);
             // incrementing the index of current frame
             //currentFrame++;
-            Red = 255;
-            Green = 255;
-            Blue = 255;
+            Red = 1;
+            Green = 1;
+            Blue = 1;
+            ColorWeed.SelectedColor = Color.FromRgb(Red, Green, Blue);
             LineWidth = 20;
         }
 
@@ -219,12 +224,6 @@ namespace Anim
 
             // we have handled these events
             e.Handled = true;
-            /*if (Red == null)
-            {
-                Red = 0;
-                Green = 255;
-                Blue = 255;
-            }*/
         }
     }
 }
